@@ -8,6 +8,13 @@
 
 #import "AppDelegate.h"
 
+@implementation NSURLRequest(DataController)
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host
+{
+    return YES;
+}
+@end
+
 @interface AppDelegate ()
 
 @end

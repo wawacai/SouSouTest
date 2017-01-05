@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "LoginController.h"
 
 @interface ViewController ()
 
@@ -17,6 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+}
+- (IBAction)faceTest:(UIButton *)sender {
+    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+    LoginController *loginVc = [sb instantiateInitialViewController];
+    [self presentViewController:loginVc animated:YES completion:nil];
 }
 
 
