@@ -392,7 +392,8 @@ int tmp;    //用于记录在载入时，是哪个点为空心（载入中字样
 }
 - (IBAction)backButton:(id)sender {
     
-        [self.presentingViewController.presentingViewController.presentingViewController.presentingViewController  dismissViewControllerAnimated:NO completion:nil];
+//        [self.presentingViewController.presentingViewController.presentingViewController.presentingViewController  dismissViewControllerAnimated:NO completion:nil];
+        [self.presentingViewController.presentingViewController  dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

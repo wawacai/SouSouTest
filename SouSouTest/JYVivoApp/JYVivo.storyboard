@@ -23,20 +23,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="login_bg" translatesAutoresizingMaskIntoConstraints="NO" id="WK9-SW-MYp">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJf-dK-Uz3">
-                                <rect key="frame" x="100" y="431" width="120" height="50"/>
-                                <color key="backgroundColor" red="0.0039215686269999999" green="0.56078431370000004" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="2T3-fI-egc"/>
-                                    <constraint firstAttribute="height" constant="50" id="Vxi-io-OZY"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="开始">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJf-dK-Uz3">
+                                <rect key="frame" x="15" y="573" width="345" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.53725490196078429" blue="0.011764705882352941" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="准备好了，开始"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="6"/>
@@ -47,7 +38,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p4F-B8-wmM">
-                                <rect key="frame" x="20" y="518" width="30" height="30"/>
+                                <rect key="frame" x="28" y="528" width="30" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.2331749213" blue="0.25126619700000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="8Zh-pl-Ytw"/>
                                     <constraint firstAttribute="height" constant="30" id="UIr-kQ-IBr"/>
@@ -61,12 +53,6 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="AMg-oe-VJt" firstAttribute="top" secondItem="p4F-B8-wmM" secondAttribute="bottom" constant="20" id="0Lz-8M-kiC"/>
-                            <constraint firstItem="BJf-dK-Uz3" firstAttribute="centerX" secondItem="xVz-nH-QSU" secondAttribute="centerX" id="7de-56-4Cx"/>
-                            <constraint firstItem="AMg-oe-VJt" firstAttribute="top" secondItem="WK9-SW-MYp" secondAttribute="bottom" id="MuO-L5-sJ2"/>
-                            <constraint firstItem="WK9-SW-MYp" firstAttribute="leading" secondItem="xVz-nH-QSU" secondAttribute="leadingMargin" constant="-20" id="bdF-Kp-U4a"/>
-                            <constraint firstItem="WK9-SW-MYp" firstAttribute="top" secondItem="xVz-nH-QSU" secondAttribute="topMargin" id="e7i-0d-z5u"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="WK9-SW-MYp" secondAttribute="trailing" constant="-20" id="oTT-jS-Q0E"/>
-                            <constraint firstItem="AMg-oe-VJt" firstAttribute="top" secondItem="BJf-dK-Uz3" secondAttribute="bottom" constant="50" id="sK9-k6-TiP"/>
                             <constraint firstItem="p4F-B8-wmM" firstAttribute="leading" secondItem="xVz-nH-QSU" secondAttribute="leadingMargin" id="szI-yQ-xPm"/>
                         </constraints>
                     </view>
@@ -145,7 +131,7 @@
         <!--识别-->
         <scene sceneID="kEc-B5-GZp">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="bPJ-X3-Yn3" userLabel="识别" customClass="RecognitionController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="rec" automaticallyAdjustsScrollViewInsets="NO" id="bPJ-X3-Yn3" userLabel="识别" customClass="RecognitionController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iM5-ee-zCn"/>
                         <viewControllerLayoutGuide type="bottom" id="mnl-lG-Tet"/>
@@ -647,7 +633,6 @@
         <image name="BackWhite.png" width="13" height="20"/>
         <image name="CloseKeyboard.png" width="40" height="40"/>
         <image name="btn_setting_n.png" width="79" height="79"/>
-        <image name="login_bg" width="1080" height="1920"/>
         <image name="result_bg.png" width="16" height="16"/>
         <image name="result_txt_bg.png" width="119" height="122"/>
     </resources>

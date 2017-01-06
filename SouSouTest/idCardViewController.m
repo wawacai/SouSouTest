@@ -559,7 +559,7 @@ bool isAutomatic;//是否是扫描获得
     
     __weak typeof (self) weakSelf = self;
     
-    
+
     //如果已经手动拍摄了
     if (weakSelf.bTakePic == YES) {
         return;

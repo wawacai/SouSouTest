@@ -14,8 +14,9 @@
 #import "Person.h"
 #import "LoginCheckBox.h"
 #import "idCardAdoptMode.h"
-
-
+#import "RecognitionController.h"
+#import "Masonry.h"
+#import "UIColor+HexString.h"
 
 #define DISPLACEMENT_VIEW_HIGHT -154
 
@@ -77,8 +78,11 @@ static NSString *password;
     }
     projectIDIsNil = YES;
     
-    [self performSegueWithIdentifier:@"startL" sender:nil];
-    
+//    [self performSegueWithIdentifier:@"startL" sender:nil];
+    UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+    RecognitionController *rec = [recSb instantiateViewControllerWithIdentifier:@"rec"];
+//    [self.navigationController pushViewController:rec animated:YES];
+    [self presentViewController:rec animated:YES completion:nil];
 }
 
 
@@ -108,7 +112,7 @@ static NSString *password;
 //    }
 
     //登陆按钮圆角
-    self.loginBtn.layer.cornerRadius = 20;
+    self.loginBtn.layer.cornerRadius = 6;
     self.loginBtn.layer.masksToBounds = YES;
     
     
@@ -124,6 +128,11 @@ static NSString *password;
 //    UIView *rightLineView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2+self.titleView.frame.size.width/2, self.titleView.frame.origin.y+130+(self.titleView.frame.size.height/2), self.view.frame.size.width/2-60-20-1, 2)];
 //    rightLineView.backgroundColor = [UIColor whiteColor];
 //    [self.view addSubview:rightLineView];
+    
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationItem.title = @"人脸认证";
+    [self setupUI];
 }
 
 
@@ -220,14 +229,86 @@ static NSString *password;
     }
 }
 
-
-
-
-
 // 用于在结果页面直接导航返回到本页面的 segue 点
 - (IBAction)unwindSegueToLoginController:(UIStoryboardSegue*)segue
 {
     
 }
+
+#pragma mark - private method
+- (UILabel *)labelWithTitle:(NSString *)title bgColorStr:(NSString *)bgColorStr textColorStr:(NSString *)textColorStr font:(CGFloat)font {
+    UILabel *label = [UILabel new];
+    label.text = title;
+    label.backgroundColor = [UIColor colorWithHexString:bgColorStr];
+    label.textColor = [UIColor colorWithHexString:textColorStr];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:font];
+    return label;
+}
+
+#pragma mark - setter and getter
+- (void)setupUI {
+    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    
+    // 1
+    UILabel *oneLabel = [self labelWithTitle:@"1" bgColorStr:@"#ff8903" textColorStr:@"#ffffff" font:16];
+    [self.view addSubview:oneLabel];
+    
+    [oneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.offset(0);
+        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(0.494 * screenW);
+    }];
+    
+    // 1
+    UILabel *twoLabel = [self labelWithTitle:@"2" bgColorStr:@"#cccccc" textColorStr:@"#999999" font:16];
+    [self.view addSubview:twoLabel];
+    
+    [twoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.top.offset(0);
+        make.height.equalTo(oneLabel);
+        make.width.mas_equalTo(0.468 * screenW);
+    }];
+    
+    // 1和2之间的图片
+    UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Group 6"]];
+    [self.view addSubview:arrowImageView];
+    
+    [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.offset(0);
+        make.left.equalTo(oneLabel.mas_right);
+        make.right.equalTo(twoLabel.mas_left);
+        make.height.equalTo(oneLabel);
+    }];
+    
+    // 提示文字
+    UILabel *promptLabel = [self labelWithTitle:@"请将脸部置于提示框内，并按提示做动作" bgColorStr:@"#ffffff" textColorStr:@"#666666" font:16];
+    [self.view addSubview:promptLabel];
+    
+    [promptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.offset(0);
+        make.top.equalTo(oneLabel.mas_bottom).offset(0.096 * screenH);
+    }];
+    
+    // 头像图片
+    UIImageView *iconImageView = [UIImageView new];
+    [self.view addSubview:iconImageView];
+    iconImageView.image = [UIImage imageNamed:@"scan"];
+    
+    [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.offset(0);
+        make.top.equalTo(promptLabel.mas_bottom).offset(0.09 * screenH);
+    }];
+    
+    [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.offset(15);
+        make.right.offset(-15);
+        make.height.mas_equalTo(44);
+        make.bottom.mas_equalTo(-0.075 * screenH);
+    }];
+}
+
+
 
 @end
