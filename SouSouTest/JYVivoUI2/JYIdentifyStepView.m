@@ -163,6 +163,7 @@ bool waiting = NO;     //等待跳转中
     self.faceFrameImageView = faceFrameImageView;
     self.progressBar = progressBar;
     self.actionImageView = actionImageView;
+    
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -419,6 +420,7 @@ bool waiting = NO;     //等待跳转中
 //重写的代理方法，可以获取到需要执行的动作指令（actionType）
 -(void)requestActionType:(int)actionType
 {
+    [_delegate isIdentifySetpView];
     JYActionInfo *actionInfo = [_actionInfos objectAtIndex:actionType];
     if (actionInfo)
     {

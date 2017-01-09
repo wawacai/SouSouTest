@@ -13,7 +13,7 @@
 #import "idCardAdoptMode.h"
 #import "Masonry.h"
 
-@interface RecognitionController () <JYStepViewDelegate>
+@interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIStepView *stepView;
@@ -23,7 +23,8 @@
 
 @property (weak, nonatomic) IDPhotoStepView *idPhotoStepView;
 
-
+// 新加
+@property (nonatomic, weak) UILabel *actionLabel;
 
 @end
 
@@ -52,7 +53,10 @@
     
     // 第三步：活体检测
     [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_3.png"]]];
-    [_stepView addSubview:[JYIdentifyStepView new]];
+    JYIdentifyStepView *isv = [JYIdentifyStepView new];
+//    [_stepView addSubview:[JYIdentifyStepView new]];
+    [_stepView addSubview:isv];
+    
     
     self.reButton.userInteractionEnabled = YES;
     
@@ -84,6 +88,8 @@
             self.reButton.userInteractionEnabled = YES;
         });
     }
+    
+//    _actionLabel.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -158,21 +164,33 @@
     self.stepView.step = -1;
 }
 
+#pragma mark - delegate 
+- (void)identifyStepView:(JYIdentifyStepView *)identifyStepView actionString:(NSString *)actionString {
+    _actionLabel.text = actionString;
+    _actionLabel.textColor = [UIColor whiteColor];
+}
+
+- (void)isIdentifySetpView {
+    _actionLabel.hidden = YES;
+}
+
 #pragma mark - setter and getter
 
 - (void)setupUI {
     CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
     
-    UILabel *seeLabel = [UILabel new];
-    seeLabel.font = [UIFont systemFontOfSize:33];
-    seeLabel.text = @"请凝视屏幕";
-    seeLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:seeLabel];
+    UILabel *actionLabel = [UILabel new];
+    actionLabel.font = [UIFont systemFontOfSize:33];
+    actionLabel.text = @"请凝视屏幕";
+    actionLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:actionLabel];
+    _actionLabel = actionLabel;
     
-    [seeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [actionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.offset(0);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(0.078 * screenH);
     }];
 }
+
 
 @end
