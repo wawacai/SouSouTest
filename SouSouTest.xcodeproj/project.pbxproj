@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B313A8541E20D11000B8A24C /* SSStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = B313A8531E20D11000B8A24C /* SSStepView.m */; };
 		B35E19531E1F856300F7FA4E /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = B35E193A1E1F856300F7FA4E /* MASCompositeConstraint.m */; };
 		B35E19541E1F856300F7FA4E /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = B35E193D1E1F856300F7FA4E /* MASConstraint.m */; };
 		B35E19551E1F856300F7FA4E /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = B35E193F1E1F856300F7FA4E /* MASConstraintMaker.m */; };
@@ -115,6 +116,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B313A8521E20D11000B8A24C /* SSStepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSStepView.h; sourceTree = "<group>"; };
+		B313A8531E20D11000B8A24C /* SSStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSStepView.m; sourceTree = "<group>"; };
 		B35E19391E1F856300F7FA4E /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		B35E193A1E1F856300F7FA4E /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
 		B35E193B1E1F856300F7FA4E /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -437,6 +440,8 @@
 				B3610EB11E1CA79F00DD3173 /* PhotoNumberDialog.m */,
 				B3610EB21E1CA79F00DD3173 /* RecognitionController.h */,
 				B3610EB31E1CA79F00DD3173 /* RecognitionController.m */,
+				B313A8521E20D11000B8A24C /* SSStepView.h */,
+				B313A8531E20D11000B8A24C /* SSStepView.m */,
 				B3610EB41E1CA79F00DD3173 /* rememberNameView.h */,
 				B3610EB51E1CA79F00DD3173 /* rememberNameView.m */,
 				B3610EB81E1CA79F00DD3173 /* ResultController.h */,
@@ -699,6 +704,7 @@
 				B35E19591E1F856300F7FA4E /* NSArray+MASAdditions.m in Sources */,
 				B3610E561E1CA6EB00DD3173 /* AppDelegate.m in Sources */,
 				B3610F471E1CA79F00DD3173 /* LoginCheckBox.m in Sources */,
+				B313A8541E20D11000B8A24C /* SSStepView.m in Sources */,
 				B35E19561E1F856300F7FA4E /* MASLayoutConstraint.m in Sources */,
 				B3610E531E1CA6EB00DD3173 /* main.m in Sources */,
 				B35E195F1E1F87EC00F7FA4E /* UIColor+HexString.m in Sources */,

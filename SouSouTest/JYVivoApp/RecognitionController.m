@@ -11,7 +11,7 @@
 #import "UIStepView.h"
 #import "IDPhotoStepView.h"
 #import "idCardAdoptMode.h"
-
+#import "Masonry.h"
 
 @interface RecognitionController () <JYStepViewDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
@@ -59,6 +59,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadingToJYIdentifyStepView) name:@"loadingToJYIdentifyStepView" object:nil];
 
+    [self setupUI];
 }
 
 
@@ -155,6 +156,23 @@
     mode.severalController = -1;
     
     self.stepView.step = -1;
+}
+
+#pragma mark - setter and getter
+
+- (void)setupUI {
+    CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    
+    UILabel *seeLabel = [UILabel new];
+    seeLabel.font = [UIFont systemFontOfSize:33];
+    seeLabel.text = @"请凝视屏幕";
+    seeLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:seeLabel];
+    
+    [seeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.offset(0);
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(0.078 * screenH);
+    }];
 }
 
 @end

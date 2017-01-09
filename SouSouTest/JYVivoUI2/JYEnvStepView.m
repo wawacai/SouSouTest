@@ -122,11 +122,18 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
 {
     CGSize size = self.frame.size;
 
-    self.faceFrameImageView.frame = CGRectMake(70,20+24+40+(((((size.width-140)/60)*77)-(((size.width-140)/22.26)*24.38))/2),size.width-140,((size.width-140)/22.26)*24.38);//人脸框大小
-    self.scanlineClipView.frame =  CGRectMake(70,20+24+40,size.width-140,((size.width-140)/60)*77);//扫描线高度
+//    self.faceFrameImageView.frame = CGRectMake(70,20+24+40+(((((size.width-140)/60)*77)-(((size.width-140)/22.26)*24.38))/2),size.width-140,((size.width-140)/22.26)*24.38);//人脸框大小
+//    self.scanlineClipView.frame =  CGRectMake(70,20+24+40,size.width-140,((size.width-140)/60)*77);//扫描线高度
+//    
+//    self.scanlineImageView.frame = CGRectMake(0, 0, size.width-140,((size.width-140)/60)*77);//扫描线宽度
+//    self.statusLabel.frame = CGRectMake(0, self.scanlineClipView.frame.origin.y+self.scanlineClipView.frame.size.height+20, size.width, 20);
     
-    self.scanlineImageView.frame = CGRectMake(0, 0, size.width-140,((size.width-140)/60)*77);//扫描线宽度
+    self.faceFrameImageView.frame = CGRectMake(0, size.height * 0.205, size.width, size.width / _faceFrameImageAspectRadio);//人脸框大小
+    self.scanlineClipView.frame = CGRectMake(0, size.height * 0.205, size.width, size.width / _faceFrameImageAspectRadio);//扫描线高度
+    
+    self.scanlineImageView.frame = CGRectMake(0, 0, size.width, size.width / _faceFrameImageAspectRadio);//扫描线宽度
     self.statusLabel.frame = CGRectMake(0, self.scanlineClipView.frame.origin.y+self.scanlineClipView.frame.size.height+20, size.width, 20);
+    
 #ifdef JYDEBUG
     self.debugImageView.frame = self.scanlineClipView.frame;
 #endif

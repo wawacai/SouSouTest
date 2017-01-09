@@ -138,8 +138,11 @@ bool waiting = NO;     //等待跳转中
     self.backgroundColor = [UIColor clearColor];
     
     UILabel* actionLabel = [UILabel new];
-    actionLabel.textColor = [UIColor colorWithRed:.027 green:.533 blue:.792 alpha:1];
+//    actionLabel.textColor = [UIColor colorWithRed:.027 green:.533 blue:.792 alpha:1];
+    actionLabel.textColor = [UIColor whiteColor];
     actionLabel.textAlignment = NSTextAlignmentCenter;
+    actionLabel.font = [UIFont systemFontOfSize:33];
+
     
     UIImageView *faceFrameImageView = [UIImageView new];
     UIImage *faceFrameImage = [JYResource imageNamed:@"face_frame.png"];
