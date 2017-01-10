@@ -11,9 +11,12 @@
 #import "UIStepView.h"
 #import "IDPhotoStepView.h"
 #import "idCardAdoptMode.h"
+// 添加
 #import "Masonry.h"
+#import "SSStepView.h"
+#import "SSPromptView.h"
 
-@interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate>
+@interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate, JYActionDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIStepView *stepView;
@@ -25,6 +28,8 @@
 
 // 新加
 @property (nonatomic, weak) UILabel *actionLabel;
+@property (nonatomic, weak) SSStepView *actionFinishNumberView;
+@property (nonatomic, weak) SSPromptView *promptView;
 
 @end
 
@@ -47,13 +52,14 @@
 //    self.idPhotoStepView = idPhotoStepView;
     
     // 第二步：环境检测
-    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_2.png"]]];
+//    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_2.png"]]];
     [_stepView addSubview:[JYEnvStepView new]];
     
     
     // 第三步：活体检测
-    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_3.png"]]];
+//    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_3.png"]]];
     JYIdentifyStepView *isv = [JYIdentifyStepView new];
+    isv.delegate = self;
 //    [_stepView addSubview:[JYIdentifyStepView new]];
     [_stepView addSubview:isv];
     
@@ -88,8 +94,6 @@
             self.reButton.userInteractionEnabled = YES;
         });
     }
-    
-//    _actionLabel.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -164,21 +168,32 @@
     self.stepView.step = -1;
 }
 
-#pragma mark - delegate 
-- (void)identifyStepView:(JYIdentifyStepView *)identifyStepView actionString:(NSString *)actionString {
-    _actionLabel.text = actionString;
-    _actionLabel.textColor = [UIColor whiteColor];
+#pragma mark - private method
+
+- (void)alertView {
+    
 }
+
+#pragma mark - delegate 
 
 - (void)isIdentifySetpView {
     _actionLabel.hidden = YES;
+}
+
+- (void)totalSuccessCount:(NSInteger)count {
+    if (count == 0) {
+        return;
+    }
+    _actionFinishNumberView.finishNumber = count;
 }
 
 #pragma mark - setter and getter
 
 - (void)setupUI {
     CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     
+    // 标题
     UILabel *actionLabel = [UILabel new];
     actionLabel.font = [UIFont systemFontOfSize:33];
     actionLabel.text = @"请凝视屏幕";
@@ -190,7 +205,28 @@
         make.centerX.offset(0);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(0.078 * screenH);
     }];
+    
+    // 下面步骤完成进度
+    SSStepView *actionFinishNumberView = [[SSStepView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:actionFinishNumberView];
+    
+    [actionFinishNumberView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.offset(0);
+        make.bottom.mas_equalTo(-0.087 * screenH);
+        make.size.mas_equalTo(CGSizeMake(204, 38));
+    }];
+    
+    // 错误提示框
+    SSPromptView *promptView = [SSPromptView new];
+    [self.view addSubview:promptView];
+    
+    [promptView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.offset(0);
+        make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
+    }];
+    
+    _actionFinishNumberView = actionFinishNumberView;
+    _promptView = promptView;
 }
-
 
 @end

@@ -33,6 +33,7 @@
 @property (nonatomic, strong) AVAudioPlayer* soundPlayer;
 #endif
 
+
 @end
 
 @implementation JYActionInfo
@@ -495,6 +496,12 @@ bool waiting = NO;     //等待跳转中
         [self.tickPlayer play];//咔咔声音播放
     }
 #endif
+}
+
+- (void)responseTotalSuccessCount:(int)count {
+    if ([_delegate respondsToSelector:@selector(totalSuccessCount:)]) {
+        [_delegate totalSuccessCount:(NSInteger)count];
+    }
 }
 
 @end

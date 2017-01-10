@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SSStepView : UIView
+@property (nonatomic, assign) NSInteger finishNumber;
 
 @end

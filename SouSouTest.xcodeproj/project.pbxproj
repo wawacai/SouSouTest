@@ -113,6 +113,7 @@
 		B3610FC31E1CC8F100DD3173 /* result_txt_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B3610FAE1E1CC8F100DD3173 /* result_txt_bg@2x.png */; };
 		B3610FC41E1CC8F100DD3173 /* right_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B3610FAF1E1CC8F100DD3173 /* right_bg@2x.png */; };
 		B3610FC61E1CC96F00DD3173 /* JYVivo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3610FC51E1CC96F00DD3173 /* JYVivo.storyboard */; };
+		B36B88091E248E060094F261 /* SSPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B88081E248E060094F261 /* SSPromptView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -278,6 +279,8 @@
 		B3610FAE1E1CC8F100DD3173 /* result_txt_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "result_txt_bg@2x.png"; sourceTree = "<group>"; };
 		B3610FAF1E1CC8F100DD3173 /* right_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_bg@2x.png"; sourceTree = "<group>"; };
 		B3610FC51E1CC96F00DD3173 /* JYVivo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = JYVivo.storyboard; sourceTree = "<group>"; };
+		B36B88071E248E060094F261 /* SSPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPromptView.h; sourceTree = "<group>"; };
+		B36B88081E248E060094F261 /* SSPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPromptView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,6 +445,8 @@
 				B3610EB31E1CA79F00DD3173 /* RecognitionController.m */,
 				B313A8521E20D11000B8A24C /* SSStepView.h */,
 				B313A8531E20D11000B8A24C /* SSStepView.m */,
+				B36B88071E248E060094F261 /* SSPromptView.h */,
+				B36B88081E248E060094F261 /* SSPromptView.m */,
 				B3610EB41E1CA79F00DD3173 /* rememberNameView.h */,
 				B3610EB51E1CA79F00DD3173 /* rememberNameView.m */,
 				B3610EB81E1CA79F00DD3173 /* ResultController.h */,
@@ -720,6 +725,7 @@
 				B3610F141E1CA79F00DD3173 /* idCardViewController.m in Sources */,
 				B3610F4B1E1CA79F00DD3173 /* Person.m in Sources */,
 				B3610F511E1CA79F00DD3173 /* ResultController.m in Sources */,
+				B36B88091E248E060094F261 /* SSPromptView.m in Sources */,
 				B3610F4D1E1CA79F00DD3173 /* RecognitionController.m in Sources */,
 				B35E19571E1F856300F7FA4E /* MASViewAttribute.m in Sources */,
 			);

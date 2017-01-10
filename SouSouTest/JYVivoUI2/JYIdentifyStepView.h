@@ -11,8 +11,8 @@
 @class JYIdentifyStepView;
 @protocol JYIdentifyStepViewDelegate <NSObject>
 
-- (void)identifyStepView:(JYIdentifyStepView *)identifyStepView actionString:(NSString *)actionString;
 - (void)isIdentifySetpView;
+- (void)totalSuccessCount:(NSInteger)count;
 
 @end
 
