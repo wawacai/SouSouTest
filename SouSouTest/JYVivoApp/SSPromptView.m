@@ -24,11 +24,11 @@
 #pragma mark - event response
 
 - (void)cancelButtonClick {
-    NSLog(@"取消");
+    self.promptViewButton(YES);
 }
 
 - (void)sureButtonClick {
-    NSLog(@"确定");
+    self.promptViewButton(NO);
 }
 
 #pragma mark - private method
@@ -139,6 +139,7 @@
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(horizontalLineView.mas_bottom).offset(22.5);
         make.centerX.equalTo(self.mas_centerX).multipliedBy(0.5);
+        make.size.mas_equalTo(CGSizeMake(156, 45));
     }];
 
     // MARK: 确定按钮
@@ -148,6 +149,7 @@
     [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(cancelBtn);
         make.centerX.equalTo(self.mas_centerX).multipliedBy(1.5);
+        make.size.mas_equalTo(CGSizeMake(156, 45));
     }];
 }
 

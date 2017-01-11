@@ -1243,8 +1243,13 @@ static int ntmp = 0;        //用来记录已经聚焦过后第二次的图片
         switch (result)
         {
             case 0://如果为0，代表通过检测
-                [self buildResult:YES];
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    [self buildResult:YES];
+                });
                 [_actionDelegate actionFinishCompleted:YES];//通过代理，传递 最终检测状态为YES
+            }
                 break;
             case 1:
                 [self buildResult:NO];

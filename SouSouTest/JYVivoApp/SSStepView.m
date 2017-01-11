@@ -77,9 +77,16 @@
 - (void)setFinishNumber:(NSInteger)finishNumber {
     _finishNumber = finishNumber;
     
-    for (NSInteger i = 0; i < finishNumber; i++) {
-        _btnArrM[i].backgroundColor = [UIColor colorWithHexString:@"#ff8903"];
+    if (finishNumber != 0) {
+        for (NSInteger i = 0; i < finishNumber; i++) {
+            _btnArrM[i].backgroundColor = [UIColor colorWithHexString:@"#ff8903"];
+        }
+    } else {
+        for (NSInteger i = 0; i < 3; i++) {
+            _btnArrM[i].backgroundColor = [UIColor grayColor];
+        }
     }
+    
 }
 
 @end

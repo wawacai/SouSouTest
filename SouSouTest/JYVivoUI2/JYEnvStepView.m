@@ -14,6 +14,8 @@
 #import "FaceModuleHead.h"
 #import "idCardAdoptMode.h"
 
+//#import "Masonry.h"
+
 
 @interface JYEnvStepView () <JYVivoUIStepDelegate>
 {
@@ -36,6 +38,7 @@
 @property (nonatomic, strong)AVAudioPlayer* dingPlayer;//跳转活体检测的声音
 
 @property (nonatomic, strong)NSTimer *timer;
+
 
 @end
 
@@ -96,6 +99,16 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
     
     idCardAdoptMode *mode = [[idCardAdoptMode alloc] init];
     mode.severalController = 0;//@@这一句！！！
+    
+//    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+//    SSPromptView *promptView = [SSPromptView new];
+//    [self addSubview:promptView];
+//    promptView.hidden = YES;
+//    [promptView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.offset(0);
+//        make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
+//    }];
+//    _promptView = promptView;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -172,12 +185,12 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
 
 -(void)setStatusText:(NSString*)text success:(BOOL)success
 {
-    
-    self.statusLabel.textColor = success ? GOOD_UICOLOR : FAIL_UICOLOR;
-    self.statusLabel.text = text;
+//    self.statusLabel.textColor = success ? GOOD_UICOLOR : FAIL_UICOLOR;
+//    self.statusLabel.text = text;
     
     if (success)
     {
+        _promptView.hidden = YES;
         // 按需要停留一定时间后进入下一步
         NSTimeInterval useInterval = [[NSDate date] timeIntervalSinceDate:_dateEnter];
         if (useInterval < SCANLIE_STEP_MIN_REMAIN - SCANLIE_STEP_DONE_DELAY) {
@@ -212,7 +225,8 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
         tmpLabel.textAlignment = NSTextAlignmentCenter;//居中显示
         tmpLabel.textColor = [UIColor whiteColor];
         tmpLabel.font = [UIFont systemFontOfSize:20];
-        tmpLabel.text = @"即将活体检测";
+//        tmpLabel.text = @"即将活体检测";
+        tmpLabel.text = @"开始人脸检测";
         [tmpImageview addSubview:tmpLabel];
             
             
@@ -227,6 +241,9 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
         
         //发送进入下个界面的通知
         [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(next) userInfo:nil repeats:NO];
+    } else {
+        _promptView.hidden = NO;
+        [self stepExit];
     }
 }
 
@@ -264,6 +281,7 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
             break;
         case eCSPT_NoFace:
             [self setStatusText:@"检测人脸失败，请对准头像框" success:NO];
+            
             break;
         case eCSPT_Positive:
             [self setStatusText:@"人脸位置不正确，请对准头像框" success:NO];
@@ -312,7 +330,7 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
     
     [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
 
-    return @"环境检测";
+    return @"人脸检测";
 }
 
 -(void)timerStop

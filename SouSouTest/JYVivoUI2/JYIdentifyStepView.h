@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JYAVSessionHolder.h"
 
 @class JYIdentifyStepView;
 @protocol JYIdentifyStepViewDelegate <NSObject>
@@ -17,7 +18,7 @@
 @end
 
 // 提供动作识别步骤视图
-@interface JYIdentifyStepView : UIView
+@interface JYIdentifyStepView : UIView <JYActionDelegate>
 @property (nonatomic, weak) id<JYIdentifyStepViewDelegate> delegate;
 
 @end

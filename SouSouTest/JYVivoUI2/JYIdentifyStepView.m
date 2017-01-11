@@ -10,7 +10,7 @@
 #import "JYDefines.h"
 #import "JYVivoUIStepDelegate.h"
 #import "JYResource.h"
-#import "JYAVSessionHolder.h"
+//#import "JYAVSessionHolder.h"
 #import "JYProgressBar.h"
 #import "JYActionImageView.h"
 #import "idCardAdoptMode.h"
@@ -60,7 +60,7 @@
 
 @end
 
-@interface JYIdentifyStepView () <JYVivoUIStepDelegate, JYActionDelegate>
+@interface JYIdentifyStepView () <JYVivoUIStepDelegate> //, JYActionDelegate>
 {
     JYVivoUIStepNext _next;
     CGFloat _faceFrameImageAspectRadio;
@@ -70,7 +70,7 @@
 
 @property (nonatomic, weak) UILabel* actionLabel;
 @property (nonatomic, weak) UIImageView* faceFrameImageView;
-@property (nonatomic, weak) JYProgressBar* progressBar;
+//@property (nonatomic, weak) JYProgressBar* progressBar;
 @property (nonatomic, weak) JYActionImageView* actionImageView;
 
 @property (nonatomic, weak) UILabel *actionL;
@@ -150,19 +150,19 @@ bool waiting = NO;     //等待跳转中
     _faceFrameImageAspectRadio = faceFrameImage.size.width / faceFrameImage.size.height;
     faceFrameImageView.image = faceFrameImage;
     
-    JYProgressBar* progressBar = [[JYProgressBar alloc] init];
+//    JYProgressBar* progressBar = [[JYProgressBar alloc] init];
     
     JYActionImageView* actionImageView = [JYActionImageView new];
     actionImageView.backgroundColor = [UIColor clearColor];
     
     [self addSubview:actionLabel];
     [self addSubview:faceFrameImageView];
-    [self addSubview:progressBar];
+//    [self addSubview:progressBar];
     [self addSubview:actionImageView];
     
     self.actionLabel = actionLabel;
     self.faceFrameImageView = faceFrameImageView;
-    self.progressBar = progressBar;
+//    self.progressBar = progressBar;
     self.actionImageView = actionImageView;
     
 }
@@ -199,13 +199,13 @@ bool waiting = NO;     //等待跳转中
     
     self.faceFrameImageView.frame = FACE_FRAME_IMAGEVIEW_FRAME; //设置脸框大小
     
-    if (size.width - (size.width - VIDEO_VIEW_WIDTH) / 2 - VIDEO_VIEW_WIDTH > 56)
-    {
-        self.progressBar.frame = CGRectMake(size.width - 50 , y+(h/10), 46, (h/10)*8);
-    } else
-    {
-        self.progressBar.frame = CGRectMake(size.width - 50,  y+(h/10), 46, (h/10)*8);
-    }
+//    if (size.width - (size.width - VIDEO_VIEW_WIDTH) / 2 - VIDEO_VIEW_WIDTH > 56)
+//    {
+//        self.progressBar.frame = CGRectMake(size.width - 50 , y+(h/10), 46, (h/10)*8);
+//    } else
+//    {
+//        self.progressBar.frame = CGRectMake(size.width - 50,  y+(h/10), 46, (h/10)*8);
+//    }
     
     CGFloat mTop = VIDEO_VIEW_TOP + VIDEO_VIEW_HEIGHT;
     CGFloat hSpacing = size.height - mTop;
@@ -235,7 +235,7 @@ bool waiting = NO;     //等待跳转中
 -(NSString*)stepEnter
 {
     [[JYAVSessionHolder instance] beginActionCheck:self];
-    return @"活体检测";
+    return @"人脸认证";
 }
 
 -(void)stepExit
@@ -425,8 +425,8 @@ bool waiting = NO;     //等待跳转中
     JYActionInfo *actionInfo = [_actionInfos objectAtIndex:actionType];
     if (actionInfo)
     {
-        [self setActionLabel:actionInfo.name withColor:GOOD_UICOLOR];
-        [self.actionImageView setImages:actionInfo.images];
+        [self setActionLabel:actionInfo.name withColor:[UIColor whiteColor]]; // GOOD_UICOLOR
+//        [self.actionImageView setImages:actionInfo.images];
 #ifdef SOUND_ACTION
         if (actionInfo.soundPlayer)
         {
@@ -478,7 +478,7 @@ bool waiting = NO;     //等待跳转中
 -(void)responseDoneOperationRange:(int)range
 {
     
-    self.progressBar.currentValue = range;
+//    self.progressBar.currentValue = range;
 }
 
 

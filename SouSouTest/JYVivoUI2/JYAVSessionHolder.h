@@ -86,6 +86,7 @@ typedef void(^JYDebugCall)(id some);
 
 @property (readonly) JYVivoResult* result;
 
+// 新加
 
 
 

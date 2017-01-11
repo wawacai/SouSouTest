@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SSPromptView : UIView
+@property (nonatomic, copy) void(^promptViewButton)(BOOL isCancelButton);
 
 @end

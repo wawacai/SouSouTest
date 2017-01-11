@@ -15,6 +15,7 @@
 #import "Masonry.h"
 #import "SSStepView.h"
 #import "SSPromptView.h"
+#import "CustomHUD.h"
 
 @interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate, JYActionDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
@@ -30,6 +31,7 @@
 @property (nonatomic, weak) UILabel *actionLabel;
 @property (nonatomic, weak) SSStepView *actionFinishNumberView;
 @property (nonatomic, weak) SSPromptView *promptView;
+@property (nonatomic, weak) JYEnvStepView *envStepView;
 
 @end
 
@@ -53,7 +55,10 @@
     
     // 第二步：环境检测
 //    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_2.png"]]];
-    [_stepView addSubview:[JYEnvStepView new]];
+//    [_stepView addSubview:[JYEnvStepView new]];
+    JYEnvStepView *envStepView = [JYEnvStepView new];
+    [_stepView addSubview:envStepView];
+    _envStepView = envStepView;
     
     
     // 第三步：活体检测
@@ -70,6 +75,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadingToJYIdentifyStepView) name:@"loadingToJYIdentifyStepView" object:nil];
 
     [self setupUI];
+    envStepView.promptView = self.promptView;
+    
+    __weak typeof(self) weakSelf = self;
+    [_promptView setPromptViewButton:^(BOOL isCancelButton) {
+        if (isCancelButton) {
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            weakSelf.actionFinishNumberView.finishNumber = 0;
+            weakSelf.promptView.hidden = YES;
+            [weakSelf.sessionHolder beginActionCheck:isv];
+            weakSelf.reButton.userInteractionEnabled = YES;
+            [weakSelf startEnvStepView];
+        }
+    }];
 }
 
 
@@ -170,21 +189,40 @@
 
 #pragma mark - private method
 
-- (void)alertView {
-    
+- (void)startEnvStepView {
+    [self.envStepView stepEnter];
 }
 
 #pragma mark - delegate 
 
 - (void)isIdentifySetpView {
     _actionLabel.hidden = YES;
+    _actionFinishNumberView.finishNumber = 1;
 }
 
 - (void)totalSuccessCount:(NSInteger)count {
+    _promptView.hidden = YES;
     if (count == 0) {
+        [_sessionHolder endActionCheck];
+        self.reButton.userInteractionEnabled = NO;
+        _promptView.hidden = NO;
         return;
     }
-    _actionFinishNumberView.finishNumber = count;
+    if (count == 3) {
+        NSLog(@"验证成功");
+        [CustomHUD showHUDSuccessWithText:@"识别成功" inView:self.view];
+        return;
+    }
+	
+    _actionFinishNumberView.finishNumber = count + 1;
+}
+
+- (void)actionCheckCompleted:(BOOL)success {
+    
+}
+
+- (void)actionFinishCompleted:(BOOL)success {
+    
 }
 
 #pragma mark - setter and getter
@@ -200,7 +238,6 @@
     actionLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:actionLabel];
     _actionLabel = actionLabel;
-    
     [actionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.offset(0);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(0.078 * screenH);
@@ -209,7 +246,6 @@
     // 下面步骤完成进度
     SSStepView *actionFinishNumberView = [[SSStepView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:actionFinishNumberView];
-    
     [actionFinishNumberView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.offset(0);
         make.bottom.mas_equalTo(-0.087 * screenH);
@@ -219,7 +255,7 @@
     // 错误提示框
     SSPromptView *promptView = [SSPromptView new];
     [self.view addSubview:promptView];
-    
+    promptView.hidden = YES;
     [promptView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.offset(0);
         make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
