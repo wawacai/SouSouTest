@@ -17,7 +17,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+    LoginController *loginVc = [sb instantiateInitialViewController];
+    //    [self presentViewController:loginVc animated:YES completion:nil];
+    [self.navigationController pushViewController:loginVc animated:YES];
 }
 - (IBAction)faceTest:(UIButton *)sender {
     

@@ -16,6 +16,7 @@
 #import "SSStepView.h"
 #import "SSPromptView.h"
 #import "CustomHUD.h"
+#import "SSSuccessPromptView.h"
 
 @interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate, JYActionDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
@@ -35,6 +36,7 @@
 @property (nonatomic, weak) UIButton *voiceBtn;
 @property (nonatomic, assign) BOOL isStartVoice;
 @property (nonatomic, weak) JYIdentifyStepView *identifyStepView;
+@property (nonatomic, weak) SSSuccessPromptView *successPromptView;
 
 @end
 
@@ -162,12 +164,13 @@
 
 - (void)onStepComplete
 {
-
-    [_sessionHolder stop2];
-    // 步骤已结束，导航到结果显示界面
-    self.stepView.step = -1;
-    
-    [self performSegueWithIdentifier:@"result" sender:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_sessionHolder stop2];
+        // 步骤已结束，导航到结果显示界面
+        self.stepView.step = -1;
+        
+        [self performSegueWithIdentifier:@"result" sender:nil];
+    });
 }
 
 #pragma mark - Navigation
@@ -211,7 +214,7 @@
     }
     if (count == 3) {
         NSLog(@"验证成功");
-        [CustomHUD showHUDSuccessWithText:@"识别成功" inView:self.view];
+        _successPromptView.hidden = NO;
         return;
     }
 	
@@ -288,9 +291,20 @@
         make.centerY.equalTo(_titleLabel);
     }];
     
+    // 识别成功提示框
+    SSSuccessPromptView *successPromptView = [SSSuccessPromptView new];
+    [self.view addSubview:successPromptView];
+    successPromptView.hidden = YES;
+    
+    [successPromptView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.offset(0);
+        make.size.mas_equalTo(CGSizeMake(110, 100));
+    }];
+    
     _actionFinishNumberView = actionFinishNumberView;
     _promptView = promptView;
     _voiceBtn = voiceBtn;
+    _successPromptView = successPromptView;
 }
 
 @end

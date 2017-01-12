@@ -116,6 +116,7 @@
 		B36B88091E248E060094F261 /* SSPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B88081E248E060094F261 /* SSPromptView.m */; };
 		B36B880D1E24EAC70094F261 /* CustomHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B880C1E24EAC70094F261 /* CustomHUD.m */; };
 		B36B88111E24EB430094F261 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B88101E24EB430094F261 /* MBProgressHUD.m */; };
+		B3F31B5D1E272EA300C50675 /* SSSuccessPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -287,6 +288,8 @@
 		B36B880C1E24EAC70094F261 /* CustomHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomHUD.m; sourceTree = "<group>"; };
 		B36B880F1E24EB430094F261 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		B36B88101E24EB430094F261 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		B3F31B5B1E272EA300C50675 /* SSSuccessPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSuccessPromptView.h; sourceTree = "<group>"; };
+		B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSuccessPromptView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +458,8 @@
 				B313A8531E20D11000B8A24C /* SSStepView.m */,
 				B36B88071E248E060094F261 /* SSPromptView.h */,
 				B36B88081E248E060094F261 /* SSPromptView.m */,
+				B3F31B5B1E272EA300C50675 /* SSSuccessPromptView.h */,
+				B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */,
 				B3610EB41E1CA79F00DD3173 /* rememberNameView.h */,
 				B3610EB51E1CA79F00DD3173 /* rememberNameView.m */,
 				B3610EB81E1CA79F00DD3173 /* ResultController.h */,
@@ -755,6 +760,7 @@
 				B3610F511E1CA79F00DD3173 /* ResultController.m in Sources */,
 				B36B88091E248E060094F261 /* SSPromptView.m in Sources */,
 				B3610F4D1E1CA79F00DD3173 /* RecognitionController.m in Sources */,
+				B3F31B5D1E272EA300C50675 /* SSSuccessPromptView.m in Sources */,
 				B35E19571E1F856300F7FA4E /* MASViewAttribute.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
