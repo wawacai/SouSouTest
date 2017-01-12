@@ -117,6 +117,10 @@
 		B3610FC31E1CC8F100DD3173 /* result_txt_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B3610FAE1E1CC8F100DD3173 /* result_txt_bg@2x.png */; };
 		B3610FC41E1CC8F100DD3173 /* right_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B3610FAF1E1CC8F100DD3173 /* right_bg@2x.png */; };
 		B3610FC61E1CC96F00DD3173 /* JYVivo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3610FC51E1CC96F00DD3173 /* JYVivo.storyboard */; };
+		B36B88091E248E060094F261 /* SSPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B88081E248E060094F261 /* SSPromptView.m */; };
+		B36B880D1E24EAC70094F261 /* CustomHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B880C1E24EAC70094F261 /* CustomHUD.m */; };
+		B36B88111E24EB430094F261 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B88101E24EB430094F261 /* MBProgressHUD.m */; };
+		B3F31B5D1E272EA300C50675 /* SSSuccessPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -289,6 +293,14 @@
 		B3610FAE1E1CC8F100DD3173 /* result_txt_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "result_txt_bg@2x.png"; sourceTree = "<group>"; };
 		B3610FAF1E1CC8F100DD3173 /* right_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_bg@2x.png"; sourceTree = "<group>"; };
 		B3610FC51E1CC96F00DD3173 /* JYVivo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = JYVivo.storyboard; sourceTree = "<group>"; };
+		B36B88071E248E060094F261 /* SSPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPromptView.h; sourceTree = "<group>"; };
+		B36B88081E248E060094F261 /* SSPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPromptView.m; sourceTree = "<group>"; };
+		B36B880B1E24EAC70094F261 /* CustomHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomHUD.h; sourceTree = "<group>"; };
+		B36B880C1E24EAC70094F261 /* CustomHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomHUD.m; sourceTree = "<group>"; };
+		B36B880F1E24EB430094F261 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		B36B88101E24EB430094F261 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		B3F31B5B1E272EA300C50675 /* SSSuccessPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSuccessPromptView.h; sourceTree = "<group>"; };
+		B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSuccessPromptView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -374,6 +386,8 @@
 				B3610EC51E1CA79F00DD3173 /* JYVivoUI2 */,
 				B3610EE41E1CA79F00DD3173 /* JYVivoUI2Res */,
 				B35E19371E1F856300F7FA4E /* Masonry */,
+				B36B880E1E24EB430094F261 /* MBProgressHUD */,
+				B36B880A1E24EAC70094F261 /* CustomHUD */,
 				B35E195D1E1F87EC00F7FA4E /* UIColor+HexString.h */,
 				B35E195E1E1F87EC00F7FA4E /* UIColor+HexString.m */,
 				B3610E541E1CA6EB00DD3173 /* AppDelegate.h */,
@@ -460,6 +474,10 @@
 				B3610EB31E1CA79F00DD3173 /* RecognitionController.m */,
 				B313A8521E20D11000B8A24C /* SSStepView.h */,
 				B313A8531E20D11000B8A24C /* SSStepView.m */,
+				B36B88071E248E060094F261 /* SSPromptView.h */,
+				B36B88081E248E060094F261 /* SSPromptView.m */,
+				B3F31B5B1E272EA300C50675 /* SSSuccessPromptView.h */,
+				B3F31B5C1E272EA300C50675 /* SSSuccessPromptView.m */,
 				B3610EB41E1CA79F00DD3173 /* rememberNameView.h */,
 				B3610EB51E1CA79F00DD3173 /* rememberNameView.m */,
 				B3610EB81E1CA79F00DD3173 /* ResultController.h */,
@@ -568,6 +586,24 @@
 				B3610FAF1E1CC8F100DD3173 /* right_bg@2x.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		B36B880A1E24EAC70094F261 /* CustomHUD */ = {
+			isa = PBXGroup;
+			children = (
+				B36B880B1E24EAC70094F261 /* CustomHUD.h */,
+				B36B880C1E24EAC70094F261 /* CustomHUD.m */,
+			);
+			path = CustomHUD;
+			sourceTree = "<group>";
+		};
+		B36B880E1E24EB430094F261 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				B36B880F1E24EB430094F261 /* MBProgressHUD.h */,
+				B36B88101E24EB430094F261 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -701,6 +737,7 @@
 				B3610F651E1CA79F00DD3173 /* UIImage+Tools.m in Sources */,
 				B3610F611E1CA79F00DD3173 /* JYVivoResult.m in Sources */,
 				B3610F5D1E1CA79F00DD3173 /* JYEnvStepView.m in Sources */,
+				B36B88111E24EB430094F261 /* MBProgressHUD.m in Sources */,
 				B3610F641E1CA79F00DD3173 /* o_ResponseMode.m in Sources */,
 				B3610F601E1CA79F00DD3173 /* JYResource.m in Sources */,
 				B3610F421E1CA79F00DD3173 /* IDPhotoStepView.m in Sources */,
@@ -731,6 +768,7 @@
 				B35E195F1E1F87EC00F7FA4E /* UIColor+HexString.m in Sources */,
 				B35E19531E1F856300F7FA4E /* MASCompositeConstraint.m in Sources */,
 				B3610F561E1CA79F00DD3173 /* UIStepView.m in Sources */,
+				B36B880D1E24EAC70094F261 /* CustomHUD.m in Sources */,
 				B35E19551E1F856300F7FA4E /* MASConstraintMaker.m in Sources */,
 				B3610F5B1E1CA79F00DD3173 /* JYActionImageView.m in Sources */,
 				B3610F441E1CA79F00DD3173 /* JYStepView.m in Sources */,
@@ -741,7 +779,9 @@
 				B3610F141E1CA79F00DD3173 /* idCardViewController.m in Sources */,
 				B3610F4B1E1CA79F00DD3173 /* Person.m in Sources */,
 				B3610F511E1CA79F00DD3173 /* ResultController.m in Sources */,
+				B36B88091E248E060094F261 /* SSPromptView.m in Sources */,
 				B3610F4D1E1CA79F00DD3173 /* RecognitionController.m in Sources */,
+				B3F31B5D1E272EA300C50675 /* SSSuccessPromptView.m in Sources */,
 				B35E19571E1F856300F7FA4E /* MASViewAttribute.m in Sources */,
 				0434D28D1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m in Sources */,
 			);

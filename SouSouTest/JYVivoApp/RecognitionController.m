@@ -11,9 +11,14 @@
 #import "UIStepView.h"
 #import "IDPhotoStepView.h"
 #import "idCardAdoptMode.h"
+// 添加
 #import "Masonry.h"
+#import "SSStepView.h"
+#import "SSPromptView.h"
+#import "CustomHUD.h"
+#import "SSSuccessPromptView.h"
 
-@interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate>
+@interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate, JYActionDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIStepView *stepView;
@@ -25,6 +30,13 @@
 
 // 新加
 @property (nonatomic, weak) UILabel *actionLabel;
+@property (nonatomic, weak) SSStepView *actionFinishNumberView;
+@property (nonatomic, weak) SSPromptView *promptView;
+@property (nonatomic, weak) JYEnvStepView *envStepView;
+@property (nonatomic, weak) UIButton *voiceBtn;
+@property (nonatomic, assign) BOOL isStartVoice;
+@property (nonatomic, weak) JYIdentifyStepView *identifyStepView;
+@property (nonatomic, weak) SSSuccessPromptView *successPromptView;
 
 @end
 
@@ -47,15 +59,20 @@
 //    self.idPhotoStepView = idPhotoStepView;
     
     // 第二步：环境检测
-    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_2.png"]]];
-    [_stepView addSubview:[JYEnvStepView new]];
+//    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_2.png"]]];
+//    [_stepView addSubview:[JYEnvStepView new]];
+    JYEnvStepView *envStepView = [JYEnvStepView new];
+    [_stepView addSubview:envStepView];
+    _envStepView = envStepView;
     
     
     // 第三步：活体检测
-    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_3.png"]]];
+//    [_stepNumberView addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_number_3.png"]]];
     JYIdentifyStepView *isv = [JYIdentifyStepView new];
+    isv.delegate = self;
 //    [_stepView addSubview:[JYIdentifyStepView new]];
     [_stepView addSubview:isv];
+    _identifyStepView = isv;
     
     
     self.reButton.userInteractionEnabled = YES;
@@ -64,6 +81,22 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadingToJYIdentifyStepView) name:@"loadingToJYIdentifyStepView" object:nil];
 
     [self setupUI];
+    envStepView.promptView = self.promptView;
+    
+    __weak typeof(self) weakSelf = self;
+    [_promptView setPromptViewButton:^(BOOL isCancelButton) {
+        if (isCancelButton) {
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            weakSelf.actionFinishNumberView.finishNumber = 0;
+            weakSelf.promptView.hidden = YES;
+            [weakSelf.sessionHolder beginActionCheck:isv];
+            weakSelf.reButton.userInteractionEnabled = YES;
+            [weakSelf startEnvStepView];
+        }
+    }];
+    
+    _isStartVoice = YES;
 }
 
 
@@ -88,8 +121,6 @@
             self.reButton.userInteractionEnabled = YES;
         });
     }
-    
-//    _actionLabel.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -133,12 +164,13 @@
 
 - (void)onStepComplete
 {
-
-    [_sessionHolder stop2];
-    // 步骤已结束，导航到结果显示界面
-    self.stepView.step = -1;
-    
-    [self performSegueWithIdentifier:@"result" sender:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_sessionHolder stop2];
+        // 步骤已结束，导航到结果显示界面
+        self.stepView.step = -1;
+        
+        [self performSegueWithIdentifier:@"result" sender:nil];
+    });
 }
 
 #pragma mark - Navigation
@@ -164,33 +196,115 @@
     self.stepView.step = -1;
 }
 
+
 #pragma mark - delegate 
-- (void)identifyStepView:(JYIdentifyStepView *)identifyStepView actionString:(NSString *)actionString {
-    _actionLabel.text = actionString;
-    _actionLabel.textColor = [UIColor whiteColor];
-}
 
 - (void)isIdentifySetpView {
     _actionLabel.hidden = YES;
+    _actionFinishNumberView.finishNumber = 1;
+}
+
+- (void)totalSuccessCount:(NSInteger)count {
+    _promptView.hidden = YES;
+    if (count == 0) {
+        [_sessionHolder endActionCheck];
+        self.reButton.userInteractionEnabled = NO;
+        _promptView.hidden = NO;
+        return;
+    }
+    if (count == 3) {
+        NSLog(@"验证成功");
+        _successPromptView.hidden = NO;
+        return;
+    }
+	
+    _actionFinishNumberView.finishNumber = count + 1;
+}
+
+- (void)actionCheckCompleted:(BOOL)success {
+    
+}
+
+- (void)actionFinishCompleted:(BOOL)success {
+    
+}
+
+#pragma mark - event response
+
+- (void)voiceButtomClick {
+    _isStartVoice = (_isStartVoice == YES) ? NO: YES;
+    _envStepView.isAllowPlayVoice = _isStartVoice;
+    _identifyStepView.isStartActionVoice = _isStartVoice;
+    NSString *imageName = (_isStartVoice == YES) ? @"startVoice": @"stopVoice";
+    [_voiceBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+}
+
+#pragma mark - private method
+
+- (void)startEnvStepView {
+    [self.envStepView stepEnter];
 }
 
 #pragma mark - setter and getter
 
 - (void)setupUI {
     CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
+    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     
+    // 标题
     UILabel *actionLabel = [UILabel new];
     actionLabel.font = [UIFont systemFontOfSize:33];
     actionLabel.text = @"请凝视屏幕";
     actionLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:actionLabel];
     _actionLabel = actionLabel;
-    
     [actionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.offset(0);
         make.top.equalTo(self.titleLabel.mas_bottom).offset(0.078 * screenH);
     }];
+    
+    // 下面步骤完成进度
+    SSStepView *actionFinishNumberView = [[SSStepView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:actionFinishNumberView];
+    [actionFinishNumberView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.offset(0);
+        make.bottom.mas_equalTo(-0.087 * screenH);
+        make.size.mas_equalTo(CGSizeMake(204, 38));
+    }];
+    
+    // 错误提示框
+    SSPromptView *promptView = [SSPromptView new];
+    [self.view addSubview:promptView];
+    promptView.hidden = YES;
+    [promptView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.offset(0);
+        make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
+    }];
+    
+    // 声音控制按钮
+    UIButton *voiceBtn = [UIButton new];
+    [self.view addSubview:voiceBtn];
+    [voiceBtn setImage:[UIImage imageNamed:@"startVoice"] forState:UIControlStateNormal];
+    [voiceBtn addTarget:self action:@selector(voiceButtomClick) forControlEvents:UIControlEventTouchUpInside];
+    [voiceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(-15);
+        make.centerY.equalTo(_titleLabel);
+    }];
+    
+    // 识别成功提示框
+    SSSuccessPromptView *successPromptView = [SSSuccessPromptView new];
+    [self.view addSubview:successPromptView];
+    successPromptView.hidden = YES;
+    
+    [successPromptView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.offset(0);
+        make.size.mas_equalTo(CGSizeMake(110, 100));
+    }];
+    
+    _actionFinishNumberView = actionFinishNumberView;
+    _promptView = promptView;
+    _voiceBtn = voiceBtn;
+    _successPromptView = successPromptView;
 }
-
 
 @end

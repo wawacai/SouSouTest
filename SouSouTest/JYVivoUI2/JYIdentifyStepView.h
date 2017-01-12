@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JYAVSessionHolder.h"
 
 @class JYIdentifyStepView;
 @protocol JYIdentifyStepViewDelegate <NSObject>
 
-- (void)identifyStepView:(JYIdentifyStepView *)identifyStepView actionString:(NSString *)actionString;
 - (void)isIdentifySetpView;
+- (void)totalSuccessCount:(NSInteger)count;
 
 @end
 
 // 提供动作识别步骤视图
-@interface JYIdentifyStepView : UIView
+@interface JYIdentifyStepView : UIView <JYActionDelegate>
 @property (nonatomic, weak) id<JYIdentifyStepViewDelegate> delegate;
+@property (nonatomic, assign) BOOL isStartActionVoice;
 
 @end
