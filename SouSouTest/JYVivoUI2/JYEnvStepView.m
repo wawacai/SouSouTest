@@ -254,39 +254,49 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
 
 -(void)updatePhotoType:(int)photoType
 {
-    switch (photoType)
-    {
-        case eCSPT_OK:
-            [self setStatusText:@"环境正常" success:YES];
-            break;
-        case eCSPT_Small:
-            [self setStatusText:@"人脸过小，请近距离拍照" success:NO];
-            break;
-        case eCSPT_Pose:
-            [self setStatusText:@"人脸姿态不正确，请对准摄像头" success:NO];
-            break;
-        case eCSPT_Biased:
-            [self setStatusText:@"人脸位置不正确，请对准头像框" success:NO];
-            break;
-        case eCSPT_MoreFace:
-            [self setStatusText:@"检测到多张人脸，只能拍取单个人脸" success:NO];
-            break;
-        case eCSPT_NoFace:
-            [self setStatusText:@"检测人脸失败，请对准头像框" success:NO];
-            
-            break;
-        case eCSPT_Positive:
-            [self setStatusText:@"人脸位置不正确，请对准头像框" success:NO];
-            break;
-        case eCSPT_Dusky:
-            [self setStatusText:@"光线昏暗" success:NO];
-            break;
-        case eCSPT_Sidelight:
-            [self setStatusText:@"侧面光线过强" success:NO];
-            break;
-        default:
-            [self setStatusText:@"环境错误，请重新开始" success:NO];//返回的-2
-            break;
+    if (photoType == eCSPT_OK) {
+        [self setStatusText:@"环境正常" success:YES];
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (photoType != eCSPT_OK) {
+                [self setStatusText:@"环境检测失败" success:NO];
+            } else {
+                switch (photoType)
+                {
+                    case eCSPT_OK:
+                        [self setStatusText:@"环境正常" success:YES];
+                        break;
+                    case eCSPT_Small:
+                        [self setStatusText:@"人脸过小，请近距离拍照" success:NO];
+                        break;
+                    case eCSPT_Pose:
+                        [self setStatusText:@"人脸姿态不正确，请对准摄像头" success:NO];
+                        break;
+                    case eCSPT_Biased:
+                        [self setStatusText:@"人脸位置不正确，请对准头像框" success:NO];
+                        break;
+                    case eCSPT_MoreFace:
+                        [self setStatusText:@"检测到多张人脸，只能拍取单个人脸" success:NO];
+                        break;
+                    case eCSPT_NoFace:
+                        [self setStatusText:@"检测人脸失败，请对准头像框" success:NO];
+                        
+                        break;
+                    case eCSPT_Positive:
+                        [self setStatusText:@"人脸位置不正确，请对准头像框" success:NO];
+                        break;
+                    case eCSPT_Dusky:
+                        [self setStatusText:@"光线昏暗" success:NO];
+                        break;
+                    case eCSPT_Sidelight:
+                        [self setStatusText:@"侧面光线过强" success:NO];
+                        break;
+                    default:
+                        [self setStatusText:@"环境错误，请重新开始" success:NO];//返回的-2
+                        break;
+                }
+            }
+        });
     }
 }
 
@@ -356,7 +366,7 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
     {
         [[JYAVSessionHolder instance] beginCheckSelfPhoto:^(int photoType)
          {
-             
+            
              [weakSelf updatePhotoType:photoType];
          }];
     }

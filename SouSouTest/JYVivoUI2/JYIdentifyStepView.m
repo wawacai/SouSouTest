@@ -261,7 +261,9 @@ bool waiting = NO;     //等待跳转中
     {
         
         [self vibrate];//震动
-        [self.failPlayer play];//调用失败的语音
+        if (_isStartActionVoice) {
+            [self.failPlayer play];//调用失败的语音
+        }
         if (self.time!= nil)
         {
             [self.time invalidate];
@@ -272,7 +274,9 @@ bool waiting = NO;     //等待跳转中
     if (success == YES)
     {
         [self vibrate];//震动
-        [self.successPlayer play];//调用成功的语音
+        if (_isStartActionVoice) {
+            [self.successPlayer play];//调用成功的语音
+        }
         
         [self.time invalidate];
     }
@@ -342,7 +346,9 @@ bool waiting = NO;     //等待跳转中
 //            [self setActionLabel:@"请正对摄像头" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
-            [self.frontPlayer play];
+            if (_isStartActionVoice) {
+                [self.frontPlayer play];
+            }
 //            self.actionL.text = @"请正对摄像头";
 //            self.actionL.textColor = FAIL_UICOLOR;
             [self actionLAlpha];
@@ -353,7 +359,9 @@ bool waiting = NO;     //等待跳转中
 //            [self setActionLabel:@"请靠近摄像头" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
-            [self.anearPlayer play];
+            if (_isStartActionVoice) {
+                [self.anearPlayer play];
+            }
 //            self.actionL.text = @"请靠近摄像头";
 //            self.actionL.textColor = FAIL_UICOLOR;
             [self actionLAlpha];
@@ -495,8 +503,9 @@ bool waiting = NO;     //等待跳转中
         return;
     }else
     {
-        
-        [self.tickPlayer play];//咔咔声音播放
+        if (_isStartActionVoice) {
+            [self.tickPlayer play];//咔咔声音播放
+        }
     }
 #endif
 }

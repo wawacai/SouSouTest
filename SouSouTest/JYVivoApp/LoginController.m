@@ -237,6 +237,12 @@ static NSString *password;
     
 }
 
+#pragma mark - event response 
+
+- (void)backButtonClick {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - private method
 - (UILabel *)labelWithTitle:(NSString *)title bgColorStr:(NSString *)bgColorStr textColorStr:(NSString *)textColorStr font:(CGFloat)font {
     UILabel *label = [UILabel new];
@@ -288,6 +294,10 @@ static NSString *password;
         make.height.mas_equalTo(44);
         make.bottom.mas_equalTo(-0.075 * screenH);
     }];
+    
+    // 导航栏返回按钮
+//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClick)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClick)];;
 }
 
 
