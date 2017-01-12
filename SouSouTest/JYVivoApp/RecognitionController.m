@@ -32,6 +32,9 @@
 @property (nonatomic, weak) SSStepView *actionFinishNumberView;
 @property (nonatomic, weak) SSPromptView *promptView;
 @property (nonatomic, weak) JYEnvStepView *envStepView;
+@property (nonatomic, weak) UIButton *voiceBtn;
+@property (nonatomic, assign) BOOL isStartVoice;
+@property (nonatomic, weak) JYIdentifyStepView *identifyStepView;
 
 @end
 
@@ -67,6 +70,7 @@
     isv.delegate = self;
 //    [_stepView addSubview:[JYIdentifyStepView new]];
     [_stepView addSubview:isv];
+    _identifyStepView = isv;
     
     
     self.reButton.userInteractionEnabled = YES;
@@ -89,6 +93,8 @@
             [weakSelf startEnvStepView];
         }
     }];
+    
+    _isStartVoice = YES;
 }
 
 
@@ -187,11 +193,6 @@
     self.stepView.step = -1;
 }
 
-#pragma mark - private method
-
-- (void)startEnvStepView {
-    [self.envStepView stepEnter];
-}
 
 #pragma mark - delegate 
 
@@ -223,6 +224,22 @@
 
 - (void)actionFinishCompleted:(BOOL)success {
     
+}
+
+#pragma mark - event response
+
+- (void)voiceButtomClick {
+    _isStartVoice = (_isStartVoice == YES) ? NO: YES;
+    _envStepView.isAllowPlayVoice = _isStartVoice;
+    _identifyStepView.isStartActionVoice = _isStartVoice;
+    NSString *imageName = (_isStartVoice == YES) ? @"startVoice": @"stopVoice";
+    [_voiceBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+}
+
+#pragma mark - private method
+
+- (void)startEnvStepView {
+    [self.envStepView stepEnter];
 }
 
 #pragma mark - setter and getter
@@ -261,8 +278,19 @@
         make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
     }];
     
+    // 声音控制按钮
+    UIButton *voiceBtn = [UIButton new];
+    [self.view addSubview:voiceBtn];
+    [voiceBtn setImage:[UIImage imageNamed:@"startVoice"] forState:UIControlStateNormal];
+    [voiceBtn addTarget:self action:@selector(voiceButtomClick) forControlEvents:UIControlEventTouchUpInside];
+    [voiceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(-15);
+        make.centerY.equalTo(_titleLabel);
+    }];
+    
     _actionFinishNumberView = actionFinishNumberView;
     _promptView = promptView;
+    _voiceBtn = voiceBtn;
 }
 
 @end

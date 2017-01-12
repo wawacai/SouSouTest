@@ -16,9 +16,9 @@
 #import "idCardAdoptMode.h"
 
 //人脸框frame大小
-#define FACE_FRAME_IMAGEVIEW_FRAME CGRectMake(70,20+24+40+(((((size.width-140)/60)*77)-(((size.width-140)/22.26)*24.38))/2),size.width-140,((size.width-140)/22.26)*24.38)
-
-#define ACTION_IMAGEVIEW_FRAME CGRectMake((size.width - ACTION_IMAGE_WIDTH) / 2, mTop + (hSpacing - ACTION_IMAGE_HEIGHT) / 2, ACTION_IMAGE_WIDTH, ACTION_IMAGE_HEIGHT);
+//#define FACE_FRAME_IMAGEVIEW_FRAME CGRectMake(70,20+24+40+(((((size.width-140)/60)*77)-(((size.width-140)/22.26)*24.38))/2),size.width-140,((size.width-140)/22.26)*24.38)
+//
+//#define ACTION_IMAGEVIEW_FRAME CGRectMake((size.width - ACTION_IMAGE_WIDTH) / 2, mTop + (hSpacing - ACTION_IMAGE_HEIGHT) / 2, ACTION_IMAGE_WIDTH, ACTION_IMAGE_HEIGHT);
 
 
 // 简单包装动作信息
@@ -165,6 +165,7 @@ bool waiting = NO;     //等待跳转中
 //    self.progressBar = progressBar;
     self.actionImageView = actionImageView;
     
+    _isStartActionVoice = YES;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -193,11 +194,11 @@ bool waiting = NO;     //等待跳转中
     
     self.actionLabel.frame = CGRectMake(0, VIDEO_VIEW_TOP - 30, size.width, 40);
     
-    CGFloat h = ((size.width-140)/60)*77;
+//    CGFloat h = ((size.width-140)/60)*77;
+//    
+//    CGFloat y = 20+24+40;
     
-    CGFloat y = 20+24+40;
-    
-    self.faceFrameImageView.frame = FACE_FRAME_IMAGEVIEW_FRAME; //设置脸框大小
+    self.faceFrameImageView.frame = CGRectMake(0, size.height * 0.177, size.width, size.width / _faceFrameImageAspectRadio); //FACE_FRAME_IMAGEVIEW_FRAME; //设置脸框大小
     
 //    if (size.width - (size.width - VIDEO_VIEW_WIDTH) / 2 - VIDEO_VIEW_WIDTH > 56)
 //    {
@@ -207,17 +208,17 @@ bool waiting = NO;     //等待跳转中
 //        self.progressBar.frame = CGRectMake(size.width - 50,  y+(h/10), 46, (h/10)*8);
 //    }
     
-    CGFloat mTop = VIDEO_VIEW_TOP + VIDEO_VIEW_HEIGHT;
-    CGFloat hSpacing = size.height - mTop;
-    if (hSpacing > ACTION_IMAGE_HEIGHT) {
-        self.actionImageView.frame = ACTION_IMAGEVIEW_FRAME;
-        
-    } else {
-        CGFloat p = hSpacing / ACTION_IMAGE_HEIGHT;
-        CGFloat w = ACTION_IMAGE_WIDTH * p;
-        CGFloat h = ACTION_IMAGE_HEIGHT * p;
-        self.actionImageView.frame = CGRectMake((size.width - w) / 2, mTop, w, h);
-    }
+//    CGFloat mTop = VIDEO_VIEW_TOP + VIDEO_VIEW_HEIGHT;
+//    CGFloat hSpacing = size.height - mTop;
+//    if (hSpacing > ACTION_IMAGE_HEIGHT) {
+//        self.actionImageView.frame = ACTION_IMAGEVIEW_FRAME;
+//        
+//    } else {
+//        CGFloat p = hSpacing / ACTION_IMAGE_HEIGHT;
+//        CGFloat w = ACTION_IMAGE_WIDTH * p;
+//        CGFloat h = ACTION_IMAGE_HEIGHT * p;
+//        self.actionImageView.frame = CGRectMake((size.width - w) / 2, mTop, w, h);
+//    }
 }
 
 -(void)setActionLabel:(NSString*)label withColor:(UIColor*)textColor
@@ -328,57 +329,57 @@ bool waiting = NO;     //等待跳转中
     {
         case 1: // 请按提示指令操作
             _isLastHint = YES;
-            [self setActionLabel:@"请按提示指令操作" withColor: GOOD_UICOLOR];
+//            [self setActionLabel:@"请按提示指令操作" withColor: GOOD_UICOLOR];
             break;
         case 2: // 未按提示操作，本次识别失败
             _isLastHint = YES;
-            [self setActionLabel:@"未按提示操作，本次识别失败" withColor: FAIL_UICOLOR];
+//            [self setActionLabel:@"未按提示操作，本次识别失败" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
             break;
         case 3: // 请正对摄像头
             _isLastHint = YES;
-            [self setActionLabel:@"请正对摄像头" withColor: FAIL_UICOLOR];
+//            [self setActionLabel:@"请正对摄像头" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
             [self.frontPlayer play];
-            self.actionL.text = @"请正对摄像头";
-            self.actionL.textColor = FAIL_UICOLOR;
+//            self.actionL.text = @"请正对摄像头";
+//            self.actionL.textColor = FAIL_UICOLOR;
             [self actionLAlpha];
             
             break;
         case 4: // 请靠近摄像头
             _isLastHint = YES;
-            [self setActionLabel:@"请靠近摄像头" withColor: FAIL_UICOLOR];
+//            [self setActionLabel:@"请靠近摄像头" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
             [self.anearPlayer play];
-            self.actionL.text = @"请靠近摄像头";
-            self.actionL.textColor = FAIL_UICOLOR;
+//            self.actionL.text = @"请靠近摄像头";
+//            self.actionL.textColor = FAIL_UICOLOR;
             [self actionLAlpha];
             
             break;
         case 5: // 检测到多张人脸，重新开始
             _isLastHint = YES;
-            [self setActionLabel:@"检测到多张人脸，重新开始" withColor: FAIL_UICOLOR];
+//            [self setActionLabel:@"检测到多张人脸，重新开始" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
             break;
         case 6: // 无人
             _isLastHint = YES;
             
-            [self setActionLabel:@"无人" withColor:FAIL_UICOLOR];
+//            [self setActionLabel:@"无人" withColor:FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
-            self.actionL.text = @"无人";
-            self.actionL.textColor = FAIL_UICOLOR;
+//            self.actionL.text = @"无人";
+//            self.actionL.textColor = FAIL_UICOLOR;
             
             [self actionLAlpha];
 
             break;
         case 7: // 超时，本次识别失败
             _isLastHint = YES;
-            [self setActionLabel:@"超时，本次识别失败" withColor: FAIL_UICOLOR];
+//            [self setActionLabel:@"超时，本次识别失败" withColor: FAIL_UICOLOR];
             [self.time invalidate];
             self.time = nil;
             break;
@@ -430,7 +431,9 @@ bool waiting = NO;     //等待跳转中
 #ifdef SOUND_ACTION
         if (actionInfo.soundPlayer)
         {
-            [actionInfo.soundPlayer play];
+            if (_isStartActionVoice) {
+                [actionInfo.soundPlayer play];
+            }
             lastSuccess = YES;
             
             player = actionInfo.soundPlayer;

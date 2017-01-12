@@ -100,15 +100,7 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
     idCardAdoptMode *mode = [[idCardAdoptMode alloc] init];
     mode.severalController = 0;//@@这一句！！！
     
-//    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
-//    SSPromptView *promptView = [SSPromptView new];
-//    [self addSubview:promptView];
-//    promptView.hidden = YES;
-//    [promptView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.offset(0);
-//        make.size.mas_equalTo(CGSizeMake(315.0 / 375 * screenW, 208));
-//    }];
-//    _promptView = promptView;
+    _isAllowPlayVoice = YES;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
@@ -141,11 +133,10 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
 //    self.scanlineImageView.frame = CGRectMake(0, 0, size.width-140,((size.width-140)/60)*77);//扫描线宽度
 //    self.statusLabel.frame = CGRectMake(0, self.scanlineClipView.frame.origin.y+self.scanlineClipView.frame.size.height+20, size.width, 20);
     
-    self.faceFrameImageView.frame = CGRectMake(0, size.height * 0.205, size.width, size.width / _faceFrameImageAspectRadio);//人脸框大小
-    self.scanlineClipView.frame = CGRectMake(0, size.height * 0.205, size.width, size.width / _faceFrameImageAspectRadio);//扫描线高度
+    self.faceFrameImageView.frame = CGRectMake(0, size.height * 0.177, size.width, size.width / _faceFrameImageAspectRadio);//人脸框大小
+    self.scanlineClipView.frame = CGRectMake(0, size.height * 0.177, size.width, size.width / _faceFrameImageAspectRadio);//扫描线高度
     
     self.scanlineImageView.frame = CGRectMake(0, 0, size.width, size.width / _faceFrameImageAspectRadio);//扫描线宽度
-    self.statusLabel.frame = CGRectMake(0, self.scanlineClipView.frame.origin.y+self.scanlineClipView.frame.size.height+20, size.width, 20);
     
 #ifdef JYDEBUG
     self.debugImageView.frame = self.scanlineClipView.frame;
@@ -185,8 +176,8 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
 
 -(void)setStatusText:(NSString*)text success:(BOOL)success
 {
-//    self.statusLabel.textColor = success ? GOOD_UICOLOR : FAIL_UICOLOR;
-//    self.statusLabel.text = text;
+    self.statusLabel.textColor = success ? GOOD_UICOLOR : FAIL_UICOLOR;
+    self.statusLabel.text = text;
     
     if (success)
     {
@@ -199,9 +190,10 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
         {
             useInterval = SCANLIE_STEP_DONE_DELAY;
         }
-
-        //进入过渡
-        [self.dingPlayer play];//检测到人脸 叮一声
+        if (_isAllowPlayVoice) {
+            //进入过渡
+            [self.dingPlayer play];//检测到人脸 叮一声
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"loadingToJYIdentifyStepView" object:self];
         tmpImageview = [[UIImageView alloc] init];
         tmpImageview.contentMode = UIViewContentModeScaleAspectFit;
@@ -330,7 +322,7 @@ UIActivityIndicatorView *testActivityIndicator; //正在载入旋转控件
     
     [runLoop addTimer:self.timer forMode:NSRunLoopCommonModes];
 
-    return @"人脸检测";
+    return @"人脸认证";
 }
 
 -(void)timerStop

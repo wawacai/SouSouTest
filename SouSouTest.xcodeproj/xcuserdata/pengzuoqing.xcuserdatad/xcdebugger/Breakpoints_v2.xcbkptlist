@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505814318.387124"
+            timestampString = "505880502.656165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
             landmarkName = "-startSO"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505812069.194109"
+            timestampString = "505880502.656165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "-setStatusText:success:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505710404.683374"
+            timestampString = "505881098.93994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "-actionFinishCompleted:"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505807053.945023"
+            timestampString = "505881098.93994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "-responseHintMsg:"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505814318.387124"
+            timestampString = "505880502.656165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "-updatePhotoType:"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505810537.512431"
+            timestampString = "505881098.93994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "-stepEnter"
             landmarkType = "7">
          </BreakpointContent>

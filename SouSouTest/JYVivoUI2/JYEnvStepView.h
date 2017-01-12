@@ -15,6 +15,7 @@
 
 // 错误提示框
 @property (nonatomic, weak) SSPromptView *promptView;
+@property (nonatomic, assign) BOOL isAllowPlayVoice;
 
 -(NSString*)stepEnter;
 

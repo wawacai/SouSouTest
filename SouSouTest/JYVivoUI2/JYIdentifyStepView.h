@@ -20,5 +20,6 @@
 // 提供动作识别步骤视图
 @interface JYIdentifyStepView : UIView <JYActionDelegate>
 @property (nonatomic, weak) id<JYIdentifyStepViewDelegate> delegate;
+@property (nonatomic, assign) BOOL isStartActionVoice;
 
 @end

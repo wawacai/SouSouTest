@@ -132,6 +132,8 @@ static NSString *password;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationItem.title = @"人脸认证";
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor darkTextColor]}];
     [self setupUI];
 }
 
@@ -248,38 +250,17 @@ static NSString *password;
 
 #pragma mark - setter and getter
 - (void)setupUI {
-    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     CGFloat screenH = [UIScreen mainScreen].bounds.size.height;
     
-    // 1
-    UILabel *oneLabel = [self labelWithTitle:@"1" bgColorStr:@"#ff8903" textColorStr:@"#ffffff" font:16];
-    [self.view addSubview:oneLabel];
+    // 上部进度指示
+    UIImageView *imageView = [UIImageView new];
+    [self.view addSubview:imageView];
+    imageView.image = [UIImage imageNamed:@"Group_1"];
     
-    [oneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.offset(0);
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.offset(0);
         make.height.mas_equalTo(20);
-        make.width.mas_equalTo(0.494 * screenW);
-    }];
-    
-    // 1
-    UILabel *twoLabel = [self labelWithTitle:@"2" bgColorStr:@"#cccccc" textColorStr:@"#999999" font:16];
-    [self.view addSubview:twoLabel];
-    
-    [twoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.top.offset(0);
-        make.height.equalTo(oneLabel);
-        make.width.mas_equalTo(0.468 * screenW);
-    }];
-    
-    // 1和2之间的图片
-    UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Group 6"]];
-    [self.view addSubview:arrowImageView];
-    
-    [arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.offset(0);
-        make.left.equalTo(oneLabel.mas_right);
-        make.right.equalTo(twoLabel.mas_left);
-        make.height.equalTo(oneLabel);
     }];
     
     // 提示文字
@@ -288,7 +269,7 @@ static NSString *password;
     
     [promptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.offset(0);
-        make.top.equalTo(oneLabel.mas_bottom).offset(0.096 * screenH);
+        make.top.equalTo(imageView.mas_bottom).offset(0.096 * screenH);
     }];
     
     // 头像图片
