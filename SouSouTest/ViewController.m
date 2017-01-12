@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "LoginController.h"
-
+#import "SoSoIdCardVertifyViewController.h"
 @interface ViewController ()
 
 @end
@@ -20,11 +20,14 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (IBAction)faceTest:(UIButton *)sender {
+//    
+//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+//    LoginController *loginVc = [sb instantiateInitialViewController];
+////    [self presentViewController:loginVc animated:YES completion:nil];
+//    [self.navigationController pushViewController:loginVc animated:YES];
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
-    LoginController *loginVc = [sb instantiateInitialViewController];
-//    [self presentViewController:loginVc animated:YES completion:nil];
-    [self.navigationController pushViewController:loginVc animated:YES];
+    SoSoIdCardVertifyViewController *vc = [[SoSoIdCardVertifyViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

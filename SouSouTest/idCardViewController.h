@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface idCardViewController : UIViewController
+@property(nonatomic,assign) BOOL isFromHeadTest; // 是否从正面认证后再次进入该控制器
 
 @end

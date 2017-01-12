@@ -14,7 +14,9 @@
 #import "idCardResultViewController.h"
 #import "idCardAdoptMode.h"
 #import "FaceModuleHead.h"
-
+#import "MBProgressHUD.h"
+#import "SoSoIdCardVertifyViewController.h"
+#import "SSPersonalAuthenticationSingleton.h"
 #define kMaxRange  120
 
 #define BorderOriginY 60
@@ -43,10 +45,10 @@ static const NSString *AVCaptureStillImageIsCapturingStillImageContext = @"AVCap
 
 @property (nonatomic, strong) NSDictionary *info;
 @property (nonatomic, strong) UIView *bigV;//大view
-
+@property(nonatomic,strong)  UIImageView *scanV; // 扫描网格
 
 @property (nonatomic, strong) UIButton *takePictureBtn;//拍照按钮
-@property (nonatomic, strong) UIButton *nextBtn;//下一步按钮
+//@property (nonatomic, strong) UIButton *nextBtn;//下一步按钮
 @property (nonatomic, strong) UIImageView *takePictureImageView;//手动拍照后显示的照片
 
 @property (nonatomic, strong) UIButton *ledBtn;//闪光灯按钮
@@ -62,6 +64,9 @@ static const NSString *AVCaptureStillImageIsCapturingStillImageContext = @"AVCap
 @property (nonatomic, strong) UIButton *bottomLabel2;//下方的提示语2
 
 @property (nonatomic, strong) UIImageView *imgView;//框
+@property(nonatomic,strong) UIButton *nextBtn; // 下一步
+@property(nonatomic,strong) UIButton *restartBtn; // 重拍
+@property(nonatomic,strong) NSTimer *timer;
 
 
 @end
@@ -73,13 +78,13 @@ bool isAutomatic;//是否是扫描获得
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+//    //监听进入后台
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(joinBackground) name:UIApplicationWillResignActiveNotification object:nil];
+//    //监听进入前台
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitBackground) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    //监听进入后台
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(joinBackground) name:UIApplicationWillResignActiveNotification object:nil];
-    //监听进入前台
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exitBackground) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    self.bTakePic = NO;
+//    self.bTakePic = NO;
     
     
     UIView *bigV = [[UIView alloc] initWithFrame:self.view.frame];
@@ -87,44 +92,44 @@ bool isAutomatic;//是否是扫描获得
     [self.view addSubview:self.bigV];
     
     //头部
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 80)];
-    topView.backgroundColor = [UIColor colorWithRed:17/255.0 green:115/255.0 blue:191/255.0 alpha:1];
+//    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+//    topView.backgroundColor = [UIColor colorWithRed:231/255.0 green:231/255.0 blue:231/255.0 alpha:1];
+//    
+//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 20, topView.frame.size.width-120, topView.frame.size.height -20)];
+//    titleLabel.text = @"证件扫描";
+//    titleLabel.font = [UIFont systemFontOfSize:22];
+//    [titleLabel setTextColor:[UIColor whiteColor]];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;//居中显示
+//    
+//    [self.bigV addSubview:topView];
+//    [self.bigV addSubview:titleLabel];
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 20, topView.frame.size.width-120, topView.frame.size.height -20)];
-    titleLabel.text = @"证件扫描";
-    titleLabel.font = [UIFont systemFontOfSize:22];
-    [titleLabel setTextColor:[UIColor whiteColor]];
-    titleLabel.textAlignment = NSTextAlignmentCenter;//居中显示
-    
-    [self.bigV addSubview:topView];
-    [self.bigV addSubview:titleLabel];
-    
-    //返回按钮
-    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 60, 60)];
-    [backButton addTarget:self action:@selector(touchBackBtn) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setBackgroundColor:[UIColor colorWithRed:17/255.0 green:115/255.0 blue:191/255.0 alpha:1]];
-    [backButton setImage:[UIImage imageNamed:@"BackWhite"] forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [topView addSubview:backButton];
-    
-    [topView bringSubviewToFront:backButton];
+//    //返回按钮
+//    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 60, 60)];
+//    [backButton addTarget:self action:@selector(touchBackBtn) forControlEvents:UIControlEventTouchUpInside];
+//    [backButton setBackgroundColor:[UIColor colorWithRed:17/255.0 green:115/255.0 blue:191/255.0 alpha:1]];
+//    [backButton setImage:[UIImage imageNamed:@"BackWhite"] forState:UIControlStateNormal];
+//    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [topView addSubview:backButton];
+//    
+//    [topView bringSubviewToFront:backButton];
 }
-
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
-}
+//
+//-(void)dealloc
+//{
+//    [[NSNotificationCenter defaultCenter]removeObserver:self];
+//}
 
 //监听进入后台
--(void)joinBackground{
-    
-    [self bSetBLed:NO];
-}
-//监听退出后台
--(void)exitBackground{
-    
-    [self bSetBLed:NO];
-}
+//-(void)joinBackground{
+//    
+////    [self bSetBLed:NO];
+//}
+////监听退出后台
+//-(void)exitBackground{
+//    
+////    [self bSetBLed:NO];
+//}
 
 
 -(void)viewDidLayoutSubviews{
@@ -132,20 +137,13 @@ bool isAutomatic;//是否是扫描获得
 }
 
 
-//返回按钮
--(void)touchBackBtn
-{
-    [self bSetBLed:NO];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 //即将显示
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self bSetBLed:NO];
+//    [self bSetBLed:NO];
     
     if (self.takePictureImageView.image) {
         _bTakePic = YES;
@@ -168,6 +166,7 @@ bool isAutomatic;//是否是扫描获得
                                     [weakSelf setupAVCapture];//创建输入输出
                                     [weakSelf setupBorderView];//设置框
                                     [weakSelf setupOtherThings];//设置，点击 ，聚焦
+                                    [weakSelf setupTimer];
                                     [weakSelf focus];//聚焦一次
                                     if (![weakSelf.captureSession isRunning])
                                     {
@@ -256,7 +255,7 @@ bool isAutomatic;//是否是扫描获得
         [[self.videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
     
         self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-        [self.previewLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
+        [self.previewLayer setBackgroundColor:[[UIColor clearColor] CGColor]];
         [self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspect];
 //        CALayer *rootLayer = [self.view layer];
 //        [rootLayer setMasksToBounds:YES];
@@ -264,7 +263,7 @@ bool isAutomatic;//是否是扫描获得
         CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
         CGFloat height = ImageFrameWidth * screenWidth / ImageFrameHeight ;
         //设定视频窗口大小位置
-        [self.previewLayer setFrame:CGRectMake(0, 80, screenWidth, height-80)];
+        [self.previewLayer setFrame:CGRectMake(0, 0, screenWidth, height)];
 
         
         [self.bigV.layer addSublayer:self.previewLayer];
@@ -284,209 +283,289 @@ bool isAutomatic;//是否是扫描获得
     if (self.takePictureImageView.image) {
         return;
     }
-    //拍照按钮
-    UIButton *takePictureBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-30, self.view.frame.size.height-50, 60, 40)];
-
-    [takePictureBtn setImage:[UIImage imageNamed:@"btn_photo_n"] forState:UIControlStateNormal];
-    [takePictureBtn setImage:[UIImage imageNamed:@"btn_photo_p"] forState:UIControlStateHighlighted];
+//    //拍照按钮
+//    UIButton *takePictureBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2-30, self.view.frame.size.height-50, 60, 40)];
+//
+//    [takePictureBtn setImage:[UIImage imageNamed:@"btn_photo_n"] forState:UIControlStateNormal];
+//    [takePictureBtn setImage:[UIImage imageNamed:@"btn_photo_p"] forState:UIControlStateHighlighted];
+//    
+//    [takePictureBtn addTarget:self action:@selector(takePicture) forControlEvents:UIControlEventTouchUpInside];
+//    self.takePictureBtn = takePictureBtn;
+//
+//    [self.view addSubview:takePictureBtn];
     
-    [takePictureBtn addTarget:self action:@selector(takePicture) forControlEvents:UIControlEventTouchUpInside];
-    self.takePictureBtn = takePictureBtn;
-
-    [self.view addSubview:takePictureBtn];
     
-    //下一步按钮
-    UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, takePictureBtn.frame.origin.y, 80, 40)];
+//    // 下一步
+//    CGFloat nextBtnW = 66;
+//    CGFloat nextBtnH = 28;
+//    UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 16 - nextBtnW ,self.view.frame.size.height - 44 - nextBtnH, nextBtnW, nextBtnH)];
+//    nextBtn.transform = CGAffineTransformMakeRotation(M_PI_2);
+//    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+//    nextBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [nextBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+//    nextBtn.layer.cornerRadius = 14;
+//    nextBtn.layer.masksToBounds = YES;
+//    nextBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+//    nextBtn.layer.borderWidth = 0.5;
+//    nextBtn.backgroundColor = [UIColor orangeColor];
+//    nextBtn.hidden = YES;
+//    self.nextBtn = nextBtn;
+//    [self.bigV addSubview:nextBtn];
+//    
+//    // 重拍按钮
+//    CGFloat restartBtnW = 66;
+//    CGFloat restartBtnH = 28;
+//    UIButton *restartBtn = [[UIButton alloc] initWithFrame:CGRectMake(16 ,self.view.frame.size.height - 44 - restartBtnH, restartBtnW, restartBtnH)];
+//    restartBtn.transform = CGAffineTransformMakeRotation(M_PI_2);
+//    [restartBtn setTitle:@"重拍" forState:UIControlStateNormal];
+//    restartBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [restartBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [restartBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+//    restartBtn.layer.cornerRadius = 14;
+//    restartBtn.layer.masksToBounds = YES;
+//    restartBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+//    restartBtn.layer.borderWidth = 0.5;
+//    restartBtn.backgroundColor = [UIColor blackColor];
+//    restartBtn.hidden = YES;
+//    self.restartBtn = restartBtn;
+//    [self.bigV addSubview:restartBtn];
+    //原来 demo下一步按钮
     
-    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [nextBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
-    nextBtn.backgroundColor = [UIColor colorWithRed:17/255.0 green:115/255.0 blue:191/255.0 alpha:1];
-    if (!_takePictureImageView.image) {
-        nextBtn.alpha = 0.5;
-        nextBtn.userInteractionEnabled = NO;
-    }else{
-        nextBtn.alpha = 1;
-        nextBtn.userInteractionEnabled = YES;
-    }
-    self.nextBtn = nextBtn;
-    [self.view addSubview:nextBtn];
+//    UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, takePictureBtn.frame.origin.y, 80, 40)];
+//    
+//    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+//    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [nextBtn addTarget:self action:@selector(next) forControlEvents:UIControlEventTouchUpInside];
+//    nextBtn.backgroundColor = [UIColor colorWithRed:17/255.0 green:115/255.0 blue:191/255.0 alpha:1];
+//    if (!_takePictureImageView.image) {
+//        nextBtn.alpha = 0.5;
+//        nextBtn.userInteractionEnabled = NO;
+//    }else{
+//        nextBtn.alpha = 1;
+//        nextBtn.userInteractionEnabled = YES;
+//    }
+//    self.nextBtn = nextBtn;
+//    [self.view addSubview:nextBtn];
     
-    //步骤条
-    UIImageView *stepView = [[UIImageView alloc] initWithFrame:CGRectMake((self.bigV.frame.size.width-200)/2, 100, 200, 24)];
-    stepView.image = [UIImage imageNamed:@"icon_number_1"];
-    self.stepView = stepView;
-    [self.bigV addSubview:stepView];
+//    //步骤条
+//    UIImageView *stepView = [[UIImageView alloc] initWithFrame:CGRectMake((self.bigV.frame.size.width-200)/2, 100, 200, 24)];
+//    stepView.image = [UIImage imageNamed:@"icon_number_1"];
+//    self.stepView = stepView;
+//    [self.bigV addSubview:stepView];
     
     //闪光灯按钮
-    UIButton *ledBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bigV.frame.size.width - 40, 90, 40, 40)];
-    [ledBtn setImage:[UIImage imageNamed:@"Led_On"] forState:UIControlStateNormal];
-    [ledBtn setImage:[UIImage imageNamed:@"Led_Off"] forState:UIControlStateSelected];
-    [ledBtn addTarget:self action:@selector(touchLedBtn) forControlEvents:UIControlEventTouchDown];
-    self.ledBtn = ledBtn;
+//    UIButton *ledBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bigV.frame.size.width - 40, 90, 40, 40)];
+//    [ledBtn setImage:[UIImage imageNamed:@"Led_On"] forState:UIControlStateNormal];
+//    [ledBtn setImage:[UIImage imageNamed:@"Led_Off"] forState:UIControlStateSelected];
+//    [ledBtn addTarget:self action:@selector(touchLedBtn) forControlEvents:UIControlEventTouchDown];
+//    self.ledBtn = ledBtn;
 //    [self.bigV addSubview:ledBtn];
     
-    //中间的提示语
-    UIButton *centerTitleBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bigV.frame.size.width/2-115, self.bigV.frame.size.height/2-30, 230, 100)];
-    centerTitleBtn.transform = CGAffineTransformRotate(centerTitleBtn.transform, M_PI_2);
-    [centerTitleBtn.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];//换行
-    [centerTitleBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    centerTitleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;//居中显示
-    [centerTitleBtn setTitle:@"拍摄身份证正面照\n证件文字需清晰可读，照片需端正" forState:UIControlStateNormal];
-    [centerTitleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.centerTitleBtn = centerTitleBtn;
-    [self.bigV addSubview:centerTitleBtn];
+//    //中间的提示语
+//    UIButton *centerTitleBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.bigV.frame.size.width/2-115, self.bigV.frame.size.height/2-30, 230, 100)];
+//    centerTitleBtn.transform = CGAffineTransformRotate(centerTitleBtn.transform, M_PI_2);
+//    [centerTitleBtn.titleLabel setLineBreakMode:NSLineBreakByWordWrapping];//换行
+//    [centerTitleBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+//    centerTitleBtn.titleLabel.textAlignment = NSTextAlignmentCenter;//居中显示
+//    [centerTitleBtn setTitle:@"拍摄身份证正面照\n证件文字需清晰可读，照片需端正" forState:UIControlStateNormal];
+//    [centerTitleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    self.centerTitleBtn = centerTitleBtn;
+//    [self.bigV addSubview:centerTitleBtn];
     
-    
+    if (!_isFromHeadTest)
+    {
+        UIButton *bottomLabel = [[UIButton alloc]initWithFrame:CGRectMake(-125,80+ self.bigV.frame.size.height/2-112, 300, 30)];
+        bottomLabel.transform = CGAffineTransformRotate(bottomLabel.transform, M_PI_2);
+        self.bottomLabel = bottomLabel;
+        [self.bottomLabel.titleLabel setFont:[UIFont systemFontOfSize:18]];
+        [self.bottomLabel setTitle:@"请将人像面放入框内，并调整好光线" forState:UIControlStateNormal];
+        [self.bottomLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.bottomLabel = bottomLabel;
+        [self.bigV addSubview:self.bottomLabel];
+
+    }
     //下方的提示语
-    UIButton *bottomLabel = [[UIButton alloc]initWithFrame:CGRectMake(-10,60+ self.bigV.frame.size.height/2-112, 80, 30)];
-    bottomLabel.transform = CGAffineTransformRotate(bottomLabel.transform, M_PI_2);
-    self.bottomLabel = bottomLabel;
-    [self.bottomLabel.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.bottomLabel setTitle:@"请确保证件" forState:UIControlStateNormal];
-    [self.bottomLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.bottomLabel = bottomLabel;
-    [self.bigV addSubview:self.bottomLabel];
     
-    UIButton *bottomLabel2 = [[UIButton alloc]initWithFrame:CGRectMake(-20,60+ self.bigV.frame.size.height/2-28, 100, 30)];
-    bottomLabel2.transform = CGAffineTransformRotate(bottomLabel2.transform, M_PI_2);
-    self.bottomLabel2 = bottomLabel2;
-    [self.bottomLabel2.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.bottomLabel2 setTitleColor:[UIColor colorWithRed:144/255.0 green:238/255.0 blue:144/255.0 alpha:YES] forState:UIControlStateNormal];
-    [self.bottomLabel2 setTitle:@"四角端正完整" forState:UIControlStateNormal];
-    self.bottomLabel2 = bottomLabel2;
-    [self.bigV addSubview:self.bottomLabel2];
+//    UIButton *bottomLabel2 = [[UIButton alloc]initWithFrame:CGRectMake(-20,60+ self.bigV.frame.size.height/2-28, 100, 30)];
+//    bottomLabel2.transform = CGAffineTransformRotate(bottomLabel2.transform, M_PI_2);
+//    self.bottomLabel2 = bottomLabel2;
+//    [self.bottomLabel2.titleLabel setFont:[UIFont systemFontOfSize:15]];
+//    [self.bottomLabel2 setTitleColor:[UIColor colorWithRed:144/255.0 green:238/255.0 blue:144/255.0 alpha:YES] forState:UIControlStateNormal];
+//    [self.bottomLabel2 setTitle:@"四角端正完整" forState:UIControlStateNormal];
+//    self.bottomLabel2 = bottomLabel2;
+//    [self.bigV addSubview:self.bottomLabel2];
     
 }
 
 //点击闪光灯按钮
--(void)touchLedBtn
-{
-    [self bSetBLed:!self.bLed];
-}
+//-(void)touchLedBtn
+//{
+//    [self bSetBLed:!self.bLed];
+//}
 
--(void)bSetBLed:(BOOL)bLed
-{
-    if (bLed == NO) {
-        [self turnOffLed];
-        self.ledBtn.selected = NO;
-    }
-    else if(bLed == YES)
-    {
-        [self turnOnLed];
-        self.ledBtn.selected = YES;
-    }
-    self.bLed = bLed;
-}
+//-(void)bSetBLed:(BOOL)bLed
+//{
+//    if (bLed == NO) {
+//        [self turnOffLed];
+//        self.ledBtn.selected = NO;
+//    }
+//    else if(bLed == YES)
+//    {
+//        [self turnOnLed];
+//        self.ledBtn.selected = YES;
+//    }
+//    self.bLed = bLed;
+//}
 
-//关闭灯光
--(void)turnOffLed {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasTorch]) {
-        [device lockForConfiguration:nil];
-        [device setTorchMode: AVCaptureTorchModeOff];
-        [device unlockForConfiguration];
-    }
-}
-//打开灯光
--(void)turnOnLed {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasTorch]) {
-        [device lockForConfiguration:nil];
-        [device setTorchMode: AVCaptureTorchModeOn];
-        [device unlockForConfiguration];
-    }   
-}
+////关闭灯光
+//-(void)turnOffLed {
+//    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//    if ([device hasTorch]) {
+//        [device lockForConfiguration:nil];
+//        [device setTorchMode: AVCaptureTorchModeOff];
+//        [device unlockForConfiguration];
+//    }
+//}
+////打开灯光
+//-(void)turnOnLed {
+//    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//    if ([device hasTorch]) {
+//        [device lockForConfiguration:nil];
+//        [device setTorchMode: AVCaptureTorchModeOn];
+//        [device unlockForConfiguration];
+//    }   
+//}
 
 
 
 //下一步
 -(void)next
 {
-    [self bSetBLed:NO];
-    [self performSegueWithIdentifier:@"idcardResult" sender:nil];
+//    [self bSetBLed:NO];
+//    [self performSegueWithIdentifier:@"idcardResult" sender:nil];
+    idCardViewController *vc = [[idCardViewController alloc] init];
+    vc.view.backgroundColor = [UIColor whiteColor];
+    vc.isFromHeadTest = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+// 完成
+-(void)finish
+{
+    SoSoIdCardVertifyViewController *vc = [[SoSoIdCardVertifyViewController alloc] init];
+    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
-
-
-//拍照
--(void)takePicture
+// 返回
+- (void)back
 {
-    self.bTakePic = YES;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+// 重拍
+- (void)rephotograph
+{
+//    idCardViewController *vc = [[idCardViewController alloc] init];
+//    vc.view.backgroundColor = [UIColor whiteColor];
+//    vc.isFromHeadTest = NO;
+//    [self.navigationController pushViewController:vc animated:YES];
     
-    idCardAdoptMode *mode = [[idCardAdoptMode alloc] init];
-    
-    //重拍处理
-    if (mode.idCardImage) {
-        self.takePictureBtn.userInteractionEnabled = NO;
-        
-        isAutomatic = NO;
-        
-        //重拍
-        [self.takePictureImageView removeFromSuperview];
-        mode.idCardImage = nil;
-        self.nextBtn.alpha = 0.5;
-        self.nextBtn.userInteractionEnabled = NO;
-        self.takePictureBtn.userInteractionEnabled = YES;
-        
-        [self.centerTitleBtn setTitle:@"\t\t\t\t\t\t\t\t\t\t\t\t拍摄身份证正面照\n证件文字需清晰可读，照片需端正" forState:UIControlStateNormal];
-        
-        
-        self.bTakePic = NO;
-        return;
+    for (UIView *view in self.bigV.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)view;
+            if ([btn.titleLabel.text isEqualToString:@"下一步"] || [btn.titleLabel.text isEqualToString:@"重拍"]) {
+                [btn removeFromSuperview];
+            }
+        }
     }
     
-    __weak typeof (self) weakSelf = self;
+    [SSPersonalAuthenticationSingleton getSingleton].headDic = nil;
+    [_timer setFireDate:[NSDate distantPast]];
+   
     
-    [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
-     {
-         weakSelf.takePictureBtn.userInteractionEnabled = NO;
-         if (error) {
-             NSLog(@"%@",error);
-             return ;
-         }
-         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-         if (imageData)
-         {
-             
-             //获取到拍照图片
-             UIImage *image = [UIImage imageWithData:imageData];
-             
-             NSData *data = UIImageJPEGRepresentation(image, 0.7);
-             
-             image = [UIImage imageWithData:data];
-             
-             
-             //赋值照片
-             mode.idCardImage = image;
-             
-             
-             UIImageView *takePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake((weakSelf.view.frame.size.width-weakSelf.previewLayer.frame.size.height*(720.0/1280.0))/2, weakSelf.previewLayer.frame.origin.y, weakSelf.previewLayer.frame.size.height*(720.0/1280.0), weakSelf.previewLayer.frame.size.height)];
-             
-             [takePictureImageView setImage:image];
-             weakSelf.takePictureImageView = takePictureImageView;
-             
-             [weakSelf.bigV addSubview:takePictureImageView];
-             [weakSelf.bigV bringSubviewToFront:weakSelf.stepView];
-             [weakSelf.centerTitleBtn setTitle:@"如不清晰，请“重拍”" forState:UIControlStateNormal];
-             [weakSelf.bigV bringSubviewToFront:weakSelf.centerTitleBtn];
-             [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel];
-             [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel2];
-             
-             
-             [weakSelf.bigV bringSubviewToFront:weakSelf.ledBtn];
-             [weakSelf.bigV bringSubviewToFront:weakSelf.nextBtn];
-             weakSelf.nextBtn.alpha = 1;
-             weakSelf.nextBtn.userInteractionEnabled = YES;
-             [weakSelf.bigV bringSubviewToFront:weakSelf.takePictureBtn];
-             weakSelf.takePictureBtn.userInteractionEnabled = YES;
-         }
-     }];
 }
+
+//拍照
+//-(void)takePicture
+//{
+//    self.bTakePic = YES;
+//    
+//    idCardAdoptMode *mode = [[idCardAdoptMode alloc] init];
+//    
+//    //重拍处理
+//    if (mode.idCardImage) {
+//        self.takePictureBtn.userInteractionEnabled = NO;
+//        
+//        isAutomatic = NO;
+//        
+//        //重拍
+//        [self.takePictureImageView removeFromSuperview];
+//        mode.idCardImage = nil;
+//        self.nextBtn.alpha = 0.5;
+//        self.nextBtn.userInteractionEnabled = NO;
+//        self.takePictureBtn.userInteractionEnabled = YES;
+//        
+//        [self.centerTitleBtn setTitle:@"\t\t\t\t\t\t\t\t\t\t\t\t拍摄身份证正面照\n证件文字需清晰可读，照片需端正" forState:UIControlStateNormal];
+//        
+//        
+//        self.bTakePic = NO;
+//        return;
+//    }
+//    
+//    __weak typeof (self) weakSelf = self;
+//    
+//    [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:[[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo] completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
+//     {
+//         weakSelf.takePictureBtn.userInteractionEnabled = NO;
+//         if (error) {
+//             NSLog(@"%@",error);
+//             return ;
+//         }
+//         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+//         if (imageData)
+//         {
+//             
+//             //获取到拍照图片
+//             UIImage *image = [UIImage imageWithData:imageData];
+//             
+//             NSData *data = UIImageJPEGRepresentation(image, 0.7);
+//             
+//             image = [UIImage imageWithData:data];
+//             
+//             
+//             //赋值照片
+//             mode.idCardImage = image;
+//             
+//             
+//             UIImageView *takePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake((weakSelf.view.frame.size.width-weakSelf.previewLayer.frame.size.height*(720.0/1280.0))/2, weakSelf.previewLayer.frame.origin.y, weakSelf.previewLayer.frame.size.height*(720.0/1280.0), weakSelf.previewLayer.frame.size.height)];
+//             
+//             [takePictureImageView setImage:image];
+//             weakSelf.takePictureImageView = takePictureImageView;
+//             
+//             [weakSelf.bigV addSubview:takePictureImageView];
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.stepView];
+//             [weakSelf.centerTitleBtn setTitle:@"如不清晰，请“重拍”" forState:UIControlStateNormal];
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.centerTitleBtn];
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel];
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel2];
+//             
+//             
+////             [weakSelf.bigV bringSubviewToFront:weakSelf.ledBtn];
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.nextBtn];
+//             weakSelf.nextBtn.alpha = 1;
+//             weakSelf.nextBtn.userInteractionEnabled = YES;
+//             [weakSelf.bigV bringSubviewToFront:weakSelf.takePictureBtn];
+//             weakSelf.takePictureBtn.userInteractionEnabled = YES;
+//         }
+//     }];
+//}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [_timer invalidate];
+    _timer = nil;
 
 }
 
@@ -498,48 +577,103 @@ bool isAutomatic;//是否是扫描获得
     }
     
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    //控制扫描范围
-    UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake((screenSize.width - BorderWidth/10*9)/2, (screenSize.height - BorderHeight/10*9-80)/2-10, BorderWidth/10*9, BorderHeight/10*9)];
     
-    borderView.layer.borderColor = [UIColor redColor].CGColor;
+    //控制扫描范围
+    UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(53,124,screenSize.width - 106, screenSize.height - 248)];
+    
+    borderView.layer.borderColor = [UIColor clearColor].CGColor;
     borderView.layer.borderWidth = 1.0f;
     borderView.layer.masksToBounds = YES;
     self.borderView = borderView;
+    [self.bigV addSubview:borderView];
+    
+   
+    // 头像
+    
+    if (_isFromHeadTest)
+    {
+        UIImageView *emblemImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"emblem"]];
+        emblemImageV.frame = CGRectMake(screenSize.width - 103 - 91,160, 103, 110);
+        emblemImageV.transform = CGAffineTransformMakeRotation(M_PI_2);
+        [self.bigV addSubview:emblemImageV];
+        
+    }else
+    {
+        UIImageView *headImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"head"]];
+        headImageV.center = CGPointMake(screenSize.width/2, CGRectGetMaxY(borderView.frame) - 96);
+        [self.bigV addSubview:headImageV];
+    }
 //    [self.previewLayer addSublayer:borderView.layer];
-
+    
     //上方阴影
     UIView *topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.borderView.frame.origin.y)];
     topView.alpha = 0.5;
-    topView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    topView.layer.backgroundColor = [UIColor blackColor].CGColor;
     
     //下方阴影
     UIView *bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, self.borderView.frame.origin.y+self.borderView.frame.size.height, self.view.frame.size.width,self.previewLayer.frame.size.height - (self.borderView.frame.origin.y+self.borderView.frame.size.height))];
     bottomView.alpha = 0.5;
-    bottomView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    bottomView.layer.backgroundColor = [UIColor blackColor].CGColor;;
     
     //左侧阴影
     UIView *leftView = [[UIView alloc]initWithFrame:CGRectMake(0, topView.frame.size.height, self.borderView.frame.origin.x, bottomView.frame.origin.y - topView.frame.size.height)];
     leftView.alpha = 0.5;
-    leftView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    leftView.layer.backgroundColor = [UIColor blackColor].CGColor;;
     
     //右侧阴影
     UIView *rightView = [[UIView alloc]initWithFrame:CGRectMake(self.borderView.frame.origin.x + self.borderView.frame.size.width  , topView.frame.size.height, leftView.frame.size.width, bottomView.frame.origin.y - topView.frame.size.height)];
     rightView.alpha = 0.5;
-    rightView.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    rightView.layer.backgroundColor = [UIColor blackColor].CGColor;;
     
+    // 框
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(leftView.frame.size.width, topView.frame.size.height, topView.frame.size.width - leftView.frame.size.width*2, leftView.frame.size.height)];
     self.imgView = imgView;
-    imgView.image = [UIImage imageNamed:@"idcard_bg"];
+    imgView.image = [UIImage imageNamed:@"frame"];
     imgView.userInteractionEnabled = YES;
     
-    [self.previewLayer addSublayer:imgView.layer];
+    // 返回按钮
+    CGFloat backBtnW = 36;
+    CGFloat backBtnH = 20;
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 35 - 10 ,20, backBtnH, backBtnW)];
+    backBtn.transform = CGAffineTransformMakeRotation(M_PI_2);
+    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.bigV addSubview:backBtn];
     
+    
+    [self.previewLayer addSublayer:imgView.layer];
     [self.previewLayer addSublayer:topView.layer];
     [self.previewLayer addSublayer:bottomView.layer];
     [self.previewLayer addSublayer:leftView.layer];
     [self.previewLayer addSublayer:rightView.layer];
+    [self slideViewRefresh];
 }
+- (void)setupTimer
+{
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(slideViewRefresh) userInfo:nil repeats:YES];
+    _timer = timer;
+    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+// 网格刷新
+- (void)slideViewRefresh{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    //扫描网格
+    UIImageView *scanV = [[UIImageView alloc]  initWithFrame:CGRectMake(screenSize.width - 106,0, 172,  screenSize.height - 248)];
+    scanV.image = [UIImage imageNamed:@"Slice"];
+    [self.borderView addSubview:scanV];
 
+//   
+    [UIView animateWithDuration:3 animations:^{
+        CGRect frame = scanV.frame;
+        frame.origin.x = -172;
+        scanV.frame = frame;
+    } completion:^(BOOL finished) {
+        scanV.hidden = YES;
+        [scanV removeFromSuperview];
+    }];
+    
+    
+}
 - (void)setupOtherThings
 {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
@@ -580,7 +714,7 @@ bool isAutomatic;//是否是扫描获得
 //                self.cardBorderLayer = nil;
 //                self.borderView.layer.borderWidth = 10.0f;//设置线宽
                 //[self drawBorderRectWithBorderPoints:borderPointsArray onCardBorderLayer:YES];
-                self.imgView.image = [UIImage imageNamed:@"idcard_bg2"];
+                self.imgView.image = [UIImage imageNamed:@"frame"];
             });
         }
         else
@@ -591,62 +725,246 @@ bool isAutomatic;//是否是扫描获得
 //                               self.borderView.layer.borderWidth = 1.0f;
 //                               [self.cardBorderLayer removeFromSuperlayer];
 //                               self.cardBorderLayer = nil;
-                               self.imgView.image = [UIImage imageNamed:@"idcard_bg"];
+                               self.imgView.image = [UIImage imageNamed:@"frame"];
                            });
         }
     } recognizeCardFinishHandler:^(NSDictionary *cardInfo) {
-        if (cardInfo == nil) {
-            return;
-        }
-        
-        [weakSelf.captureSession stopRunning];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.takePictureBtn.userInteractionEnabled = NO;
-            weakSelf.nextBtn.userInteractionEnabled = NO;
-            //跳转
-            //cardInfo
-            weakSelf.info = cardInfo;
-            //跳转的代码
-            weakSelf.view.userInteractionEnabled = NO;
-            
-            isAutomatic = YES;
-            
-            weakSelf.bLed = NO;
-            
-            
-//            int cardPrompt = ;
-//            NSLog(@"--%@",[cardInfo valueForKey:kIDCardImageCompletenessType]);
-            
-            //跳转
-            [weakSelf performSegueWithIdentifier:@"idcardResult" sender:nil];
-            ////////////////
-            UIImageView *takePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake((weakSelf.view.frame.size.width-weakSelf.previewLayer.frame.size.height*(720.0/1280.0))/2, weakSelf.previewLayer.frame.origin.y, weakSelf.previewLayer.frame.size.height*(720.0/1280.0), weakSelf.previewLayer.frame.size.height)];
-            
-//            [UIImage imageWithCGImage:[[cardInfo valueForKey:kOpenSDKCardResultTypeOriginImage] CGImage] scale:1 orientation:UIImageOrientationRight];
-            
-            [takePictureImageView setImage:[UIImage imageWithCGImage:[[cardInfo valueForKey:kOpenSDKCardResultTypeOriginImage] CGImage] scale:1 orientation:UIImageOrientationRight]];//取证件照];
-            weakSelf.takePictureImageView = takePictureImageView;
-            
-            
-            //再将这个控件添加到window，并显示在所有子视图之前
-            [weakSelf.bigV addSubview:takePictureImageView];
-            [weakSelf.bigV bringSubviewToFront:weakSelf.stepView];
-            [weakSelf.bigV bringSubviewToFront:weakSelf.centerTitleBtn];
-            [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel];
-            [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel2];
-            [weakSelf.centerTitleBtn setTitle:@"如不清晰，请“重拍”" forState:UIControlStateNormal];
-            
-            [weakSelf.bigV bringSubviewToFront:weakSelf.ledBtn];
 
-            /////////////////
-            weakSelf.takePictureBtn.userInteractionEnabled = YES;
-            weakSelf.nextBtn.userInteractionEnabled = YES;
+        if (!_isFromHeadTest)
+        {
+            if ([[cardInfo valueForKey:kOpenSDKCardResultTypeCardName] isEqualToString:@"第二代身份证背面"]) {
+                
+                //            static dispatch_once_t onceToken;
+                //            dispatch_once(&onceToken, ^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+//
+                    UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noti_head-1"]];
+                    imageV.center = self.bigV.center;
+                    [self.bigV addSubview:imageV];
+                    
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [imageV removeFromSuperview];
+                    });
+                    
+//                    // 证明是反面
+//                    MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.bigV animated:YES];
+//                    HUD.mode = MBProgressHUDModeCustomView;
+//                    HUD.customView =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noti_head"]];
+//                    HUD.square = YES;
+//                    
+//                    for (UIView *subView in HUD.subviews.lastObject.subviews) {
+//                        if ([subView isKindOfClass:[UIImageView class]]) {
+//                            subView.transform = CGAffineTransformMakeRotation(M_PI_2);
+//                        }
+//                        
+////                        if ([subView isKindOfClass:[UIVisualEffectView class]]) {
+////                            subView.backgroundColor = [UIColor clearColor];
+////                        }
+//                        
+//                    }
+////                    MBBackgroundView *view = HUD.subviews.lastObject;
+////                    view.backgroundColor = [UIColor clearColor];
+//
+//                    [HUD hideAnimated:YES afterDelay:1];
+//                    
+                    
+                    
+                });
+                //            });
+                //
+            }else{
+                
+//                [_timer invalidate];
+
+                [_timer setFireDate:[NSDate distantFuture]];
+                dispatch_async(dispatch_get_main_queue(), ^
+                               {
+                                   
+                                   [self setupNextBtn];
+                                   [SSPersonalAuthenticationSingleton getSingleton].headDic = cardInfo;
+                                   // 显示识别成功
+//                                   MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.bigV animated:YES];
+//                                   HUD.mode = MBProgressHUDModeCustomView;
+//                                   HUD.customView =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"success"]];
+//                                   HUD.square = YES;
+//                                   [HUD hideAnimated:YES afterDelay:3];
+                                   UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"success"]];
+                                   imageV.center = weakSelf.bigV.center;
+                                   [weakSelf.bigV addSubview:imageV];
+                                   
+                                   
+                                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                       [imageV removeFromSuperview];
+                                   });
+                               
+                               });
+                
+            }
+        }else{// 如果第二次进入该页面
             
-            weakSelf.view.userInteractionEnabled = YES;
-        });
-    }];
+            if ([[cardInfo valueForKey:kOpenSDKCardResultTypeCardName] isEqualToString:@"第二代身份证"]) {
+    
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    // 证明是反面
+                    UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"noti_back-1"]];
+                    imageV.center = weakSelf.bigV.center;
+                    [weakSelf.bigV addSubview:imageV];
+                    
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [imageV removeFromSuperview];
+                    });
+                });
+            }else{
+                [_timer invalidate];
+                dispatch_async(dispatch_get_main_queue(), ^
+                               {
+                                   [self setupNextBtn];
+                                   [SSPersonalAuthenticationSingleton getSingleton].backDic = cardInfo;
+                                   // 显示识别成功
+//                                   MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:self.bigV animated:YES];
+//                                   HUD.mode = MBProgressHUDModeText;
+//                                   HUD.label.text = @"识别成功";
+//                                   HUD.square = YES;
+//                                   for (UIView *subView in HUD.subviews.lastObject.subviews) {
+//                                       if ([subView isKindOfClass:[UILabel class]]) {
+//                                           subView.transform = CGAffineTransformMakeRotation(M_PI_2);
+//                                       }
+//                                   }
+//                                   [HUD hideAnimated:YES afterDelay:1];
+                                   
+                                   // 显示识别成功
+                                   UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"success"]];
+                                   imageV.center = weakSelf.bigV.center;
+                                   [weakSelf.bigV addSubview:imageV];
+                                   
+                                   
+                                   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                       [imageV removeFromSuperview];
+                                   });
+                               });
+                
+            }
+        }
+}];
+        
+        // 显示下一步和重拍按钮
+  
+//        // 关闭动画
+    
+        
+//        
+//        if (cardInfo == nil) {
+//            return;
+//        }
+//        
+//        [weakSelf.captureSession stopRunning];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            weakSelf.takePictureBtn.userInteractionEnabled = NO;
+//            weakSelf.nextBtn.userInteractionEnabled = NO;
+//            //跳转
+//            //cardInfo
+//            weakSelf.info = cardInfo;
+//            //跳转的代码
+//            weakSelf.view.userInteractionEnabled = NO;
+//            
+//            isAutomatic = YES;
+//            
+//            weakSelf.bLed = NO;
+//            
+//            
+////            int cardPrompt = ;
+////            NSLog(@"--%@",[cardInfo valueForKey:kIDCardImageCompletenessType]);
+//            
+//                UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+//                idCardResultViewController *rec = [recSb instantiateViewControllerWithIdentifier:@"result"];
+//            rec.dict = cardInfo;
+//            rec.str = @"YES";
+//            //    [self.navigationController pushViewController:rec animated:YES];
+//                [self presentViewController:rec animated:YES completion:nil];
+//            
+//            //跳转
+////            [weakSelf performSegueWithIdentifier:@"idcardResult" sender:nil];
+//            ////////////////
+//            UIImageView *takePictureImageView = [[UIImageView alloc] initWithFrame:CGRectMake((weakSelf.view.frame.size.width-weakSelf.previewLayer.frame.size.height*(720.0/1280.0))/2, weakSelf.previewLayer.frame.origin.y, weakSelf.previewLayer.frame.size.height*(720.0/1280.0), weakSelf.previewLayer.frame.size.height)];
+//            
+////            [UIImage imageWithCGImage:[[cardInfo valueForKey:kOpenSDKCardResultTypeOriginImage] CGImage] scale:1 orientation:UIImageOrientationRight];
+//            
+//            [takePictureImageView setImage:[UIImage imageWithCGImage:[[cardInfo valueForKey:kOpenSDKCardResultTypeOriginImage] CGImage] scale:1 orientation:UIImageOrientationRight]];//取证件照];
+//            weakSelf.takePictureImageView = takePictureImageView;
+//            
+//            
+//            //再将这个控件添加到window，并显示在所有子视图之前
+//            [weakSelf.bigV addSubview:takePictureImageView];
+//            [weakSelf.bigV bringSubviewToFront:weakSelf.stepView];
+//            [weakSelf.bigV bringSubviewToFront:weakSelf.centerTitleBtn];
+//            [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel];
+//            [weakSelf.bigV bringSubviewToFront:weakSelf.bottomLabel2];
+//            [weakSelf.centerTitleBtn setTitle:@"如不清晰，请“重拍”" forState:UIControlStateNormal];
+//            
+//            [weakSelf.bigV bringSubviewToFront:weakSelf.ledBtn];
+//
+//            /////////////////
+//            weakSelf.takePictureBtn.userInteractionEnabled = YES;
+//            weakSelf.nextBtn.userInteractionEnabled = YES;
+//            
+//            weakSelf.view.userInteractionEnabled = YES;
+//        });
+//    }];
     CFRelease(sampleBuffer);
 }
+
+- (void)setupNextBtn{
+    // 下一步
+    CGFloat nextBtnW = 66;
+    CGFloat nextBtnH = 28;
+    UIButton *nextBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 16 - nextBtnW ,self.view.frame.size.height - 44 - nextBtnH, nextBtnW, nextBtnH)];
+    nextBtn.transform = CGAffineTransformMakeRotation(M_PI_2);
+    if (!_isFromHeadTest)
+    {
+        [nextBtn addTarget:self action:@selector(next) forControlEvents:  UIControlEventTouchUpInside];
+        [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    }else
+    {
+        [nextBtn addTarget:self action:@selector(finish) forControlEvents:  UIControlEventTouchUpInside];
+        [nextBtn setTitle:@"完成" forState:UIControlStateNormal];
+    }
+    nextBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+    nextBtn.layer.cornerRadius = 14;
+    nextBtn.layer.masksToBounds = YES;
+    nextBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    nextBtn.layer.borderWidth = 0.5;
+    nextBtn.backgroundColor = [UIColor orangeColor];
+    self.nextBtn = nextBtn;
+    [self.bigV addSubview:nextBtn];
+    
+    // 重拍按钮
+    if (!_isFromHeadTest)
+    {
+        CGFloat restartBtnW = 66;
+        CGFloat restartBtnH = 28;
+        UIButton *restartBtn = [[UIButton alloc] initWithFrame:CGRectMake(16 ,self.view.frame.size.height - 44 - restartBtnH, restartBtnW, restartBtnH)];
+        restartBtn.transform = CGAffineTransformMakeRotation(M_PI_2);
+        [restartBtn setTitle:@"重拍" forState:UIControlStateNormal];
+        restartBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [restartBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [restartBtn addTarget:self action:@selector(rephotograph) forControlEvents:UIControlEventTouchUpInside];
+        restartBtn.layer.cornerRadius = 14;
+        restartBtn.layer.masksToBounds = YES;
+        restartBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+        restartBtn.layer.borderWidth = 0.5;
+        restartBtn.backgroundColor = [UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
+        self.restartBtn = restartBtn;
+        [self.bigV addSubview:restartBtn];
+    }
+    
+}
+
 
 //跳转控制器的时候传值
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -661,6 +979,7 @@ bool isAutomatic;//是否是扫描获得
         }
     }
 }
+
 
 - (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
@@ -779,5 +1098,7 @@ bool isAutomatic;//是否是扫描获得
     }
     return length;
 }
-
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 @end
