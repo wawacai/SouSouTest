@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0434D28D1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0434D28B1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m */; };
+		0434D28E1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0434D28C1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.xib */; };
+		0434D2911E25CDD600F53F5A /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0434D2901E25CDD600F53F5A /* MBProgressHUD.m */; };
+		0434D2941E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0434D2931E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.m */; };
 		B313A8541E20D11000B8A24C /* SSStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = B313A8531E20D11000B8A24C /* SSStepView.m */; };
 		B35E19531E1F856300F7FA4E /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = B35E193A1E1F856300F7FA4E /* MASCompositeConstraint.m */; };
 		B35E19541E1F856300F7FA4E /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = B35E193D1E1F856300F7FA4E /* MASConstraint.m */; };
@@ -120,6 +124,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0434D28A1E24B52A00F53F5A /* SoSoIdCardVertifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoSoIdCardVertifyViewController.h; sourceTree = "<group>"; };
+		0434D28B1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoSoIdCardVertifyViewController.m; sourceTree = "<group>"; };
+		0434D28C1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SoSoIdCardVertifyViewController.xib; sourceTree = "<group>"; };
+		0434D28F1E25CDD600F53F5A /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		0434D2901E25CDD600F53F5A /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		0434D2921E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSPersonalAuthenticationSingleton.h; sourceTree = "<group>"; };
+		0434D2931E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSPersonalAuthenticationSingleton.m; sourceTree = "<group>"; };
 		B313A8521E20D11000B8A24C /* SSStepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSStepView.h; sourceTree = "<group>"; };
 		B313A8531E20D11000B8A24C /* SSStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSStepView.m; sourceTree = "<group>"; };
 		B35E19391E1F856300F7FA4E /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
@@ -360,8 +371,15 @@
 		B3610E501E1CA6EB00DD3173 /* SouSouTest */ = {
 			isa = PBXGroup;
 			children = (
+				0434D28F1E25CDD600F53F5A /* MBProgressHUD.h */,
+				0434D2901E25CDD600F53F5A /* MBProgressHUD.m */,
+				0434D2921E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.h */,
+				0434D2931E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.m */,
 				B3610E681E1CA79F00DD3173 /* idCardViewController.h */,
 				B3610E691E1CA79F00DD3173 /* idCardViewController.m */,
+				0434D28A1E24B52A00F53F5A /* SoSoIdCardVertifyViewController.h */,
+				0434D28B1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m */,
+				0434D28C1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.xib */,
 				B3610E6A1E1CA79F00DD3173 /* ISIDReaderPreviewSDK.framework */,
 				B3610E6B1E1CA79F00DD3173 /* ISOpenSDKFoundation.embeddedframework */,
 				B3610E811E1CA79F00DD3173 /* JYVivoApp */,
@@ -686,6 +704,7 @@
 				B3610FC61E1CC96F00DD3173 /* JYVivo.storyboard in Resources */,
 				B3610F771E1CA79F00DD3173 /* cmd_front.wav in Resources */,
 				B3610FBE1E1CC8F100DD3173 /* icon_number_2@2x.png in Resources */,
+				0434D28E1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.xib in Resources */,
 				B3610F261E1CA79F00DD3173 /* is_camera_flash_on@2x.png in Resources */,
 				B3610FC31E1CC8F100DD3173 /* result_txt_bg@2x.png in Resources */,
 				B3610FC21E1CC8F100DD3173 /* login_logo@2x.png in Resources */,
@@ -734,6 +753,7 @@
 				B3610F5E1E1CA79F00DD3173 /* JYIdentifyStepView.m in Sources */,
 				B3610F3C1E1CA79F00DD3173 /* HttpService.m in Sources */,
 				B3610F481E1CA79F00DD3173 /* LoginController.m in Sources */,
+				0434D2941E261B3D00F53F5A /* SSPersonalAuthenticationSingleton.m in Sources */,
 				B3610F591E1CA79F00DD3173 /* idCardAdoptMode.m in Sources */,
 				B35E19541E1F856300F7FA4E /* MASConstraint.m in Sources */,
 				B3610F4E1E1CA79F00DD3173 /* rememberNameView.m in Sources */,
@@ -744,6 +764,7 @@
 				B313A8541E20D11000B8A24C /* SSStepView.m in Sources */,
 				B35E19561E1F856300F7FA4E /* MASLayoutConstraint.m in Sources */,
 				B3610E531E1CA6EB00DD3173 /* main.m in Sources */,
+				0434D2911E25CDD600F53F5A /* MBProgressHUD.m in Sources */,
 				B35E195F1E1F87EC00F7FA4E /* UIColor+HexString.m in Sources */,
 				B35E19531E1F856300F7FA4E /* MASCompositeConstraint.m in Sources */,
 				B3610F561E1CA79F00DD3173 /* UIStepView.m in Sources */,
@@ -762,6 +783,7 @@
 				B3610F4D1E1CA79F00DD3173 /* RecognitionController.m in Sources */,
 				B3F31B5D1E272EA300C50675 /* SSSuccessPromptView.m in Sources */,
 				B35E19571E1F856300F7FA4E /* MASViewAttribute.m in Sources */,
+				0434D28D1E24B52B00F53F5A /* SoSoIdCardVertifyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

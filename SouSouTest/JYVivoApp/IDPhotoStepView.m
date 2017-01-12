@@ -43,7 +43,7 @@
     [focusButton addTarget:self action:@selector(maskAreaTouch:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImageView *maskImageVIew = [UIImageView new];
-    maskImageVIew.image = [UIImage imageNamed:@"idcard_bg.png"];
+    maskImageVIew.image = [UIImage imageNamed:@"frame"];
     
     UIImageView *previewImageView = [UIImageView new];
     previewImageView.contentMode = UIViewContentModeScaleAspectFill;
