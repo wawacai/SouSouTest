@@ -6,22 +6,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SouSouTest/JYVivoUI2/JYAVSessionHolder.m"
-            timestampString = "505731419.263052"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1243"
-            endingLineNumber = "1243"
-            landmarkName = "-setFeature:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -90,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYAVSessionHolder.m"
-            timestampString = "505736442.567965"
+            timestampString = "505909270.66361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1321"
-            endingLineNumber = "1321"
+            startingLineNumber = "1320"
+            endingLineNumber = "1320"
             landmarkName = "-buildResult:"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505880502.656165"
+            timestampString = "505901882.892903"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
             landmarkName = "-startSO"
             landmarkType = "7">
          </BreakpointContent>
@@ -169,44 +153,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505880502.656165"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "-setStatusText:success:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SouSouTest/JYVivoUI2/JYAVSessionHolder.m"
-            timestampString = "505731419.263052"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1197"
-            endingLineNumber = "1197"
-            landmarkName = "-setFeature:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505881098.93994"
+            timestampString = "505894461.946166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
             landmarkName = "-actionFinishCompleted:"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,7 +186,7 @@
                   moduleName = "SouSouTest"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pengzuoqing/Desktop/SouSouTest/SouSouTest/JYVivoApp/LoginTextField.m"
-                  timestampString = "505885723.031431"
+                  timestampString = "505907465.334495"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "175"
@@ -249,7 +201,7 @@
                   moduleName = "SouSouTest"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pengzuoqing/Desktop/SouSouTest/SouSouTest/JYVivoApp/LoginTextField.m"
-                  timestampString = "505885723.032702"
+                  timestampString = "505907465.335792"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "175"
@@ -266,12 +218,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505881098.93994"
+            timestampString = "505894461.946166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
             landmarkName = "-responseHintMsg:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SouSouTest/JYVivoUI2/JYAVSessionHolder.m"
+            timestampString = "505900182.902126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1064"
+            endingLineNumber = "1064"
+            landmarkName = "-captureOutput:didOutputSampleBuffer:fromConnection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -282,12 +250,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYEnvStepView.m"
-            timestampString = "505880502.656165"
+            timestampString = "505901578.963084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "-updatePhotoType:"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "-setStatusText:success:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SouSouTest/JYVivoApp/RecognitionController.m"
+            timestampString = "505902436.716114"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "-totalSuccessCount:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYAVSessionHolder.m"
-            timestampString = "505810089.558923"
+            timestampString = "505907108.956252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1220"
-            endingLineNumber = "1220"
+            startingLineNumber = "1172"
+            endingLineNumber = "1172"
             landmarkName = "-setFeature:"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,12 +298,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SouSouTest/JYVivoUI2/JYIdentifyStepView.m"
-            timestampString = "505881098.93994"
+            timestampString = "505907238.956937"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "-stepEnter"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
+            landmarkName = "-responseTotalSuccessCount:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

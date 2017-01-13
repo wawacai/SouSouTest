@@ -1075,7 +1075,6 @@ static int ntmp = 0;        //用来记录已经聚焦过后第二次的图片
         
         if (feature > 0 && self.mode.severalController == 1) {//如果成功
             dispatch_async(dispatch_get_main_queue(), ^{//到主线程
-                
                 [self setFeature:feature];//将检查结果传递到代理
                
                 //[_actionDelegate actionFinishCompleted:NO];//调用后结束
@@ -1220,7 +1219,7 @@ static int ntmp = 0;        //用来记录已经聚焦过后第二次的图片
         if (_actionDelegate && [_actionDelegate respondsToSelector:@selector(responseClockTime:)])//如果代理实现了 接收可用时间 的方法
         {
             [_actionDelegate responseClockTime:getCountClockTime()];//给代理传递 可用时间
-
+            
         }
     }
     if (GET_DONE_OPERATION_COUNT)

@@ -31,14 +31,13 @@
     UIButton *btn = [UIButton new];
     [self addSubview:btn];
     [btn setTitle:title forState:UIControlStateNormal];
-    btn.backgroundColor = [UIColor grayColor];
     btn.titleLabel.font = [UIFont systemFontOfSize:18];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.layer.cornerRadius = 19;
     btn.clipsToBounds = YES;
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
     btn.layer.borderWidth = 1;
-    btn.alpha = 1;
+    btn.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
     [_btnArrM addObject:btn];
     return btn;
 }
