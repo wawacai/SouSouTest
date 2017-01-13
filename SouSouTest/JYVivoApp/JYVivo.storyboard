@@ -104,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2So-qg-KRi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-726" y="-51"/>
+            <point key="canvasLocation" x="-810" y="-18"/>
         </scene>
         <!--Id Card Result View Controller-->
         <scene sceneID="ivP-E9-dBS">
@@ -125,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3zY-du-g1b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10" y="-30"/>
+            <point key="canvasLocation" x="-97" y="-18"/>
         </scene>
         <!--识别-->
         <scene sceneID="kEc-B5-GZp">
@@ -234,12 +234,12 @@
                     </connections>
                 </customObject>
             </objects>
-            <point key="canvasLocation" x="764" y="-30"/>
+            <point key="canvasLocation" x="610" y="-30"/>
         </scene>
         <!--结果-->
         <scene sceneID="HMI-RM-Bb9">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="SQW-dF-God" userLabel="结果" customClass="ResultController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResultController" automaticallyAdjustsScrollViewInsets="NO" id="SQW-dF-God" userLabel="结果" customClass="ResultController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gzL-Jm-pPL"/>
                         <viewControllerLayoutGuide type="bottom" id="f46-yJ-O9R"/>
