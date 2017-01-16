@@ -11,13 +11,14 @@
 #import "UIStepView.h"
 #import "IDPhotoStepView.h"
 #import "idCardAdoptMode.h"
+#import "AppDelegate.h"
 // 添加
 #import "Masonry.h"
 #import "SSStepView.h"
 #import "SSPromptView.h"
 #import "CustomHUD.h"
 #import "SSSuccessPromptView.h"
-
+#import "SoSoIdCardVertifyViewController.h"
 @interface RecognitionController () <JYStepViewDelegate, JYIdentifyStepViewDelegate, JYActionDelegate>
 @property (weak, nonatomic) IBOutlet JYAVSessionHolder *sessionHolder;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -169,7 +170,9 @@
         // 步骤已结束，导航到结果显示界面
         self.stepView.step = -1;
         
-        [self performSegueWithIdentifier:@"result" sender:nil];
+        
+        SoSoIdCardVertifyViewController *vc = [[SoSoIdCardVertifyViewController alloc] init];
+        [self presentViewController:vc animated:YES completion:nil];
     });
 }
 

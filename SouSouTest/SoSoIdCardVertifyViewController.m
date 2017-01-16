@@ -9,6 +9,7 @@
 #import "SoSoIdCardVertifyViewController.h"
 #import "idCardViewController.h"
 #import "SSPersonalAuthenticationSingleton.h"
+#import "ResultController.h"
 @interface SoSoIdCardVertifyViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *rephotographBtn;
 @property (weak, nonatomic) IBOutlet UIButton *rephotograph_backBtn;
@@ -56,28 +57,37 @@
 
 - (IBAction)beginIdVertify:(id)sender
 {
+    UIButton *btn = (UIButton *)sender;
+    if ([btn.titleLabel.text isEqualToString:@"提交"]) {
+        
+//        [self performSegueWithIdentifier:@"result" sender:nil];
+    
+        UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+        ResultController *rec = [recSb instantiateViewControllerWithIdentifier:@"ResultController"];
+        [self presentViewController:rec animated:YES completion:nil];
+
+        
+    }else{
+    
     idCardViewController *vc = [[idCardViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController pushViewController:vc animated:YES];
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
+//    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];    
+    }
 }
 - (IBAction)rephotographDidClick:(UIButton *)sender
 {
-//    [SSPersonalAuthenticationSingleton getSingleton].headDic = nil;
+
     idCardViewController *vc = [[idCardViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self.navigationController pushViewController:vc animated:YES];
-    
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 - (IBAction)rephotographBackDidClick:(UIButton *)sender
 {
     [SSPersonalAuthenticationSingleton getSingleton].backDic = nil;
     idCardViewController *vc = [[idCardViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
     vc.isFromHeadTest = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end

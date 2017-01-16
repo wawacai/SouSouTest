@@ -78,11 +78,11 @@ static NSString *password;
     }
     projectIDIsNil = YES;
     
-    [self performSegueWithIdentifier:@"startL" sender:nil];
-//    UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
-//    RecognitionController *rec = [recSb instantiateViewControllerWithIdentifier:@"rec"];
-////    [self.navigationController pushViewController:rec animated:YES];
-//    [self presentViewController:rec animated:YES completion:nil];
+//    [self performSegueWithIdentifier:@"startL" sender:nil];
+    UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+    RecognitionController *rec = [recSb instantiateViewControllerWithIdentifier:@"rec"];
+//    [self.navigationController pushViewController:rec animated:YES];
+    [self presentViewController:rec animated:YES completion:nil];
 }
 
 

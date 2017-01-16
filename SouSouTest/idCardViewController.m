@@ -17,6 +17,7 @@
 #import "MBProgressHUD.h"
 #import "SoSoIdCardVertifyViewController.h"
 #import "SSPersonalAuthenticationSingleton.h"
+#import "LoginController.h"
 #define kMaxRange  120
 
 #define BorderOriginY 60
@@ -445,22 +446,32 @@ bool isAutomatic;//是否是扫描获得
 //    [self bSetBLed:NO];
 //    [self performSegueWithIdentifier:@"idcardResult" sender:nil];
     idCardViewController *vc = [[idCardViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
+//    vc.view.backgroundColor = [UIColor whiteColor];
     vc.isFromHeadTest = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+//    [self.navigationController pushViewController:vc animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 // 完成
 -(void)finish
 {
     SoSoIdCardVertifyViewController *vc = [[SoSoIdCardVertifyViewController alloc] init];
-    [self.navigationController setNavigationBarHidden:NO];
-    [self.navigationController pushViewController:vc animated:YES];
+     [self presentViewController:vc animated:YES completion:nil];
+//    [self.navigationController setNavigationBarHidden:NO];
+//    [self.navigationController pushViewController:vc animated:YES];
+//
+//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+//    LoginController *loginVc = [sb instantiateInitialViewController];
+////    [self.navigationController pushViewController:loginVc animated:YES];
+//    [self presentViewController:loginVc animated:YES completion:nil];
+    
+    
 }
 
 // 返回
 - (void)back
 {
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.navigationController popViewControllerAnimated:YES];
 }
 // 重拍
@@ -564,6 +575,7 @@ bool isAutomatic;//是否是扫描获得
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self.captureSession stopRunning];
     [_timer invalidate];
     _timer = nil;
 
@@ -730,6 +742,7 @@ bool isAutomatic;//是否是扫描获得
         }
     } recognizeCardFinishHandler:^(NSDictionary *cardInfo) {
 
+//
         if (!_isFromHeadTest)
         {
             if ([[cardInfo valueForKey:kOpenSDKCardResultTypeCardName] isEqualToString:@"第二代身份证背面"]) {
@@ -844,16 +857,21 @@ bool isAutomatic;//是否是扫描获得
                                    
                                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                        [imageV removeFromSuperview];
+                                       [self setupResultWithDic:[SSPersonalAuthenticationSingleton getSingleton].headDic];
+                                  
                                    });
                                });
                 
+               
+//
+
             }
         }
 }];
         
         // 显示下一步和重拍按钮
   
-//        // 关闭动画
+        // 关闭动画
     
         
 //        
@@ -861,7 +879,7 @@ bool isAutomatic;//是否是扫描获得
 //            return;
 //        }
 //        
-//        [weakSelf.captureSession stopRunning];
+//    
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            weakSelf.takePictureBtn.userInteractionEnabled = NO;
 //            weakSelf.nextBtn.userInteractionEnabled = NO;
@@ -917,6 +935,39 @@ bool isAutomatic;//是否是扫描获得
     CFRelease(sampleBuffer);
 }
 
+
+- (void)setupResultWithDic:(NSDictionary *)dic{
+    
+    idCardAdoptMode *mode = [[idCardAdoptMode alloc] init];
+
+    NSDictionary *infoDic = [dic objectForKey:kOpenSDKCardResultTypeCardItemInfo];
+
+//    self.infoDic = [dic objectForKey:kOpenSDKCardResultTypeCardItemInfo];
+    //    self.idCardImage = [dict valueForKey:kOpenSDKCardResultTypeOriginImage];//取证件照
+    mode.idCardImage = [dic valueForKey:kOpenSDKCardResultTypeImage];//取剪切后的证件照
+    NSData *data = UIImageJPEGRepresentation(mode.idCardImage, 0.7);
+    
+    mode.idCardImage = [UIImage imageWithData:data];
+    
+    NSLog(@"%lf--%lf",mode.idCardImage.size.width,mode.idCardImage.size.height);
+    
+    NSString *nameString = [infoDic valueForKey:kCardItemName];
+    
+    NSString *idNumber = [infoDic valueForKey:kCardItemIDNumber];
+    
+    mode.name = nameString;
+    mode.idCardNumber = idNumber;
+//    证件照类型（一代，二代，正面反面）
+    
+//    UIStoryboard *recSb = [UIStoryboard storyboardWithName:@"JYVivo" bundle:nil];
+//    idCardResultViewController *rec = [recSb instantiateViewControllerWithIdentifier:@"result"];
+//    rec.dict = dic;
+//    rec.str = @"YES";
+//                //    [self.navigationController pushViewController:rec animated:YES];
+//    [self presentViewController:rec animated:YES completion:nil];
+
+    
+}
 - (void)setupNextBtn{
     // 下一步
     CGFloat nextBtnW = 66;
